@@ -1,0 +1,19 @@
+.dashboardmain {
+    position: relative;
+    top: 8vh;
+}
+
+.dashboardmain h1 {
+    font-family: "Roboto", sans-serif;
+    font-size: 1.5rem;
+    font-weight: 700;
+    text-align: center;
+    color: #333;
+    border: 3px solid #333;
+    margin-right: 25vw;
+    margin-left: 25vw;
+    padding-top: 1vh;
+    padding-bottom: 1vh;
+    border-radius: 10px;
+    background-color:white;
+}
