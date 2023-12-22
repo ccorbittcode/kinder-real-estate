@@ -2,7 +2,7 @@ import * as React from 'react';
 import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
 
-export default function TextInput({labelText}) {
+export default function TextInput({ labelText, name, value, onChange }) {
   return (
     <Box
       component="form"
@@ -18,6 +18,9 @@ export default function TextInput({labelText}) {
       autoComplete="off"
     >
       <TextField
+        name={name}
+        value={value}
+        onChange={onChange}
         id="text-input"
         label={labelText}
         variant="outlined"

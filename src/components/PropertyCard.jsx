@@ -5,6 +5,7 @@ import CardContent from '@mui/material/CardContent';
 import CardMedia from '@mui/material/CardMedia';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
+import { Link } from 'react-router-dom';
 
 export default function PropertyCard({ property }) {
   return (
@@ -13,19 +14,21 @@ export default function PropertyCard({ property }) {
         component="img"
         alt="Property Image"
         height="140"
-        image={property.image}
+        image={property.imageUrl}
       />
       <CardContent>
         <Typography gutterBottom variant="h5" component="div">
           {property.name}
         </Typography>
         <Typography variant="body2" color="text.secondary">
-         {property.description}
+          {property.description}
         </Typography>
       </CardContent>
       <CardActions>
         <Button size="small">Share</Button>
-        <Button size="small">Learn More</Button>
+        <Link to={`/properties/${property._id}`}>
+          <Button size="small">Learn More</Button>
+        </Link>
       </CardActions>
     </Card>
   );

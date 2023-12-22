@@ -6,7 +6,7 @@
 
 .homeheader {
     position: absolute;
-    top: 50%;
+    top: 40%;
     left: 50%;
     transform: translate(-50%, -65%);
     color: #023047;
@@ -21,7 +21,7 @@
 
 @media only screen and (min-width: 701px) and (max-width: 1000px) {
     .homeheader {
-        top: 35%;
+        top: 31%;
         width: 80%;
     }
 }

@@ -10,11 +10,15 @@ export default async function connectToServer() {
         const db = await client.connect();
         // Verify we got a good "db" object
         if (db) {
-            _db = db.db("employees");
+            _db = db.db("kinder-real-estate");
             console.log("Successfully connected to MongoDB.");
         }
         return _db;
     } catch (err) {
         throw err;
     }
+}
+
+export async function getDb() {
+    return _db;
 }
