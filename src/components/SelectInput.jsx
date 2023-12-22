@@ -6,7 +6,7 @@ import Select from '@mui/material/Select';
 import './SelectInput.css'
 
 
-export default function SelectInput({options}) {
+export default function SelectInput({ options, name }) {
     const [value, setValue] = React.useState('');
 
     const handleChange = (event) => {
@@ -18,6 +18,7 @@ export default function SelectInput({options}) {
             <FormControl sx={{ m: 1, borderRadius: "5px",backgroundColor: "#ffffff", width: "100%" }}>
                 <InputLabel id={`${options[0].type.toLowerCase()}-select-label`}>{options[0].type}</InputLabel>
                 <Select
+                    name={name}
                     labelId={`${options[0].type.toLowerCase()}-select-label`}
                     id={`${options[0].type.toLowerCase()}-select`}
                     value={value}

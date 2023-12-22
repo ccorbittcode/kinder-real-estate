@@ -1,6 +1,7 @@
 import './App.css'
 import Home from './pages/Home'
 import Properties from './pages/Properties'
+import Property from './pages/Property'
 import Contact from './pages/Contact'
 import About from './pages/About'
 import Account from './pages/Account'
@@ -40,6 +41,10 @@ const router = createBrowserRouter([
       },
       {
         path: "/dashboard",
+        element: <Dashboard />,
+      },
+      {
+        path: "/edit/:id",
         element: <Dashboard />,
       },
     ]

@@ -2,6 +2,7 @@ import * as React from 'react';
 import PropertyCard from './PropertyCard'
 import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid';
+import { useState, useEffect } from 'react' 
 
 const propertyTemp = [
     {
@@ -43,6 +44,23 @@ const propertyTemp = [
 ]
 
 export default function PropertyCardStack() {
+    const [properties, setProperties] = useState([]);
+
+    // This method fetches the records from the database.
+    useEffect(() => {
+        async function getProperties() {
+            const response = await fetch(`http://localhost:5000/properties/`);
+            if (!response.ok) {
+                const message = `An error occurred: ${response.statusText}`;
+                window.alert(message);
+                return;
+            }
+            const properties = await response.json();
+            setProperties(properties);
+        }
+        getProperties();
+        return;
+    }, [properties.length]);
     return (
         <Box sx={{
             flexGrow: 1,
@@ -51,18 +69,15 @@ export default function PropertyCardStack() {
         }}
         >
             <Grid container spacing={2}>
-                <Grid item xs={6} md={3}>
-                    <PropertyCard property={propertyTemp[0]}/>
-                </Grid>
-                <Grid item xs={6} md={3}>
-                    <PropertyCard property={propertyTemp[1]}/>
-                </Grid>
-                <Grid item xs={6} md={3}>
-                    <PropertyCard property={propertyTemp[2]}/>
-                </Grid>
-                <Grid item xs={6} md={3}>
-                    <PropertyCard property={propertyTemp[3]}/>
-                </Grid>
+            {
+                        properties.slice(0,3).map((property, index) => {
+                            return (
+                                <Grid item xs={6} md={3}>
+                                    <PropertyCard key={index} property={property} />
+                                </Grid>
+                            )
+                        })
+                    }
             </Grid>
         </Box>
     );
