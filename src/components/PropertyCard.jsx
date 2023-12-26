@@ -21,12 +21,12 @@ export default function PropertyCard({ property }) {
           {property.name}
         </Typography>
         <Typography variant="body2" color="text.secondary">
-          {property.description}
+          {property.description.substring(0, 120)}...
         </Typography>
       </CardContent>
       <CardActions>
         <Button size="small">Share</Button>
-        <Link to={`/properties/${property._id}`}>
+        <Link to={`/property/${property._id}`}>
           <Button size="small">Learn More</Button>
         </Link>
       </CardActions>
