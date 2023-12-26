@@ -26,21 +26,23 @@ propertyRoutes.route("/properties").get(async function (req, response) {
 });
 
 // This section will help you get a single property by id
-propertyRoutes.route("/property/:id").get(function (req, res) {
-    let db_connect = getDb();
-    let myquery = { _id: ObjectId(req.params.id) };
-    db_connect
-        .collection("properties")
-        .findOne(myquery, function (err, result) {
-            if (err) throw err;
-            res.json(result);
-        });
+propertyRoutes.route("/property/:id").get( async function (req, response) {
+    let db_connect = await getDb();
+    let myquery = { _id: new ObjectId(req.params.id) };
+    try {
+        let res = await db_connect
+            .collection("properties")
+            .findOne(myquery);
+        response.json(res);
+    }   catch (err) {
+        console.error(err);
+        response.status(500).send(err);
+    }
 });
 
 // This section will help you create a new property.
 propertyRoutes.route("/properties/add").post(async function (req, response) {
     let db_connect = await getDb("kinder-real-estate");
-    console.log(db_connect);
     let myobj = {
         name: req.body.name,
         address: req.body.address,
@@ -60,7 +62,6 @@ propertyRoutes.route("/properties/add").post(async function (req, response) {
     try {
         let res = await db_connect.collection("properties").insertOne(myobj);
         response.json(res);
-        console.log(req.body)
     } catch (err) {
         console.error(err);
         response.status(500).send(err);

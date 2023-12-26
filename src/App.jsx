@@ -28,6 +28,10 @@ const router = createBrowserRouter([
         element: <Properties />,
       },
       {
+        path: "/property/:id",
+        element: <Property />,
+      },
+      {
         path: "/contact",
         element: <Contact />,
       },

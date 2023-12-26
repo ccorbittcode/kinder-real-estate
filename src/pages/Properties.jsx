@@ -4,7 +4,7 @@ import PropertyList from '../components/PropertyList'
 
 export default function Properties() {
     return (
-        <div className='propertymain'>
+        <div className='properties-main'>
            <PropertyList />
         </div>
     )
