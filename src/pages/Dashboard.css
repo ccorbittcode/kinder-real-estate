@@ -1,6 +1,7 @@
 .dashboardmain {
     position: relative;
     top: 8vh;
+    margin-bottom: 50px;
 }
 
 .dashboardmain h1 {

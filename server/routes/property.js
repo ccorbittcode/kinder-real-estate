@@ -57,7 +57,7 @@ propertyRoutes.route("/properties/add").post(async function (req, response) {
         lotSize: req.body.lotSize,
         yearBuilt: req.body.yearBuilt,
         description: req.body.description,
-        imageUrl: req.body.imageUrl,
+        images: req.body.images,
     };
     try {
         let res = await db_connect.collection("properties").insertOne(myobj);
@@ -87,7 +87,7 @@ propertyRoutes.route("/update/:id").post(async function (req, response) {
             lotSize: req.body.lotSize,
             yearBuilt: req.body.yearBuilt,
             description: req.body.description,
-            imageUrl: req.body.imageUrl,
+            images: req.body.images,
         },
     };
     db_connect
