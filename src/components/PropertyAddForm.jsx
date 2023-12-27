@@ -1,21 +1,24 @@
 import TextInput from "./TextInput";
-import SelectInput from "./SelectInput";
 import { Box, Grid } from "@mui/material";
 import TextArea from "./TextArea";
+import ImageUploader from "./ImageUploader";
 import Button from '@mui/material/Button';
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
-const propertyTypeOptions = [
-    { type: "Type", value: "Residential", label: "Residential" },
-    { type: "Type", value: "Commercial", label: "Commercial" },
-    { type: "Type", value: "Land", label: "Land" },
-    { type: "Type", value: "Multi-Family", label: "Multi-Family" },
-    { type: "Type", value: "Other", label: "Other" },
-];
+// const propertyTypeOptions = [
+//     { type: "Type", value: "Residential", label: "Residential" },
+//     { type: "Type", value: "Commercial", label: "Commercial" },
+//     { type: "Type", value: "Land", label: "Land" },
+//     { type: "Type", value: "Multi-Family", label: "Multi-Family" },
+//     { type: "Type", value: "Other", label: "Other" },
+// ];
 
 
 export default function PropertyAddForm() {
+    const [loading, setLoading] = useState(false);
+    //set publicIds for image upload
+    const [publicIds, setPublicIds] = useState([]);
     const [form, setForm] = useState({
         name: "",
         address: "",
@@ -30,8 +33,9 @@ export default function PropertyAddForm() {
         lotSize: "",
         yearBuilt: "",
         description: "",
-        imageUrl: "",
+        images: publicIds,
     });
+
     const navigate = useNavigate();
     // These methods will update the state properties.
     const handleChange = (event) => {
@@ -41,17 +45,27 @@ export default function PropertyAddForm() {
         });
     };
 
+    useEffect(() => {
+        setForm(form => ({ ...form, images: publicIds }));
+    }, [publicIds]);
+
     // This function will handle the submission.
     const handleSubmit = async (event) => {
         event.preventDefault();
-        console.log(form) //log the form
+        if (loading) {
+            return;
+        }
         try {
+            const formData = {
+                ...form,
+                images: publicIds, // Use the current value of publicIds
+            };
             const response = await fetch('http://localhost:5000/properties/add', {
                 method: 'POST',
                 headers: {
                     "Content-Type": "application/json",
                 },
-                body: JSON.stringify(form),
+                body: JSON.stringify(formData),
             });
             if (!response.ok) {
                 throw new Error('Network response was not ok');
@@ -70,8 +84,9 @@ export default function PropertyAddForm() {
                 lotSize: "",
                 yearBuilt: "",
                 description: "",
-                imageUrl: "",
+                images: publicIds,
             });
+            setPublicIds([]);
             navigate("/dashboard");
         } catch (error) {
             window.alert(error);
@@ -206,13 +221,14 @@ export default function PropertyAddForm() {
                     </Grid>
                     <Grid item xs={1} md={4} lg={4}></Grid>
                     <Grid item xs={11} md={8} lg={6}>
-                        <TextInput
+                        {/* <TextInput
                             name="imageUrl"
                             value={form.imageUrl}
                             onChange={handleChange}
                             className="form-input"
                             labelText="Image URL"
-                        />
+                        /> */}
+                        <ImageUploader setPublicIds={setPublicIds} setLoading={setLoading} publicIds={publicIds}/>
                     </Grid>
                     <Grid item xs={1} md={4} lg={6}></Grid>
                     <Grid item xs={3} md={2} lg={2}>

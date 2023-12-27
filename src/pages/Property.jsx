@@ -28,12 +28,12 @@ export default function Property() {
     return (
         <div className="property-main">
             {property && (
-                <div>
+                <Box>
                     <h2>{property.name}</h2>
                     <ImageCarousel />
                     <p>{property.description}</p>
 
-                </div>
+                </Box>
             )}
         </div>
     )

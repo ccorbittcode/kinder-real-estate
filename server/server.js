@@ -2,7 +2,7 @@ import express from "express";
 import cors from "cors";
 import propertyRoutes from "./routes/property.js";
 import dotenv from "dotenv";
-dotenv.config({ path: "./.env"});
+dotenv.config({ path: "../.env"});
 
 const app = express();
 
