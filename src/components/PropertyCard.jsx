@@ -14,7 +14,7 @@ export default function PropertyCard({ property }) {
         component="img"
         alt="Property Image"
         height="140"
-        image={property.imageUrl}
+        image={`https://res.cloudinary.com/${import.meta.env.VITE_CLOUDINARY_CLOUD_NAME}/image/upload/v1704205644/${property.images[0]}.png`}
       />
       <CardContent>
         <Typography gutterBottom variant="h5" component="div">

@@ -1,4 +1,11 @@
 .property-main {
     position: relative;
     top: 10vh;
+    font-family: roboto, sans-serif, arial ;
+}
+
+@media only screen and (min-width: 1201px) {
+    .property-details-box {
+        margin: auto;
+    }
 }
