@@ -45,7 +45,13 @@ export default function ImageUploader({ setPublicIds, setLoading, publicIds }) {
                 return (
                     <AdvancedImage
                         key={publicId}
-                        style={{ maxWidth: "15%" }}
+                        style={{
+                            maxWidth: "120px",
+                            maxHeight: "70px",
+                            margin: "5px",
+                            border: "2px solid black",
+                            borderRadius: "5px"
+                        }}
                         cldImg={img}
                         plugins={[responsive(), placeholder()]}
                     />
