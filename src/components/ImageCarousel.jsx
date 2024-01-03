@@ -25,72 +25,73 @@ function ImageCarousel({ property }) {
     setActiveStep((prevActiveStep) => prevActiveStep - 1);
   };
 
-const handleStepChange = (step) => {
+  const handleStepChange = (step) => {
     setActiveStep(step);
-};
+  };
 
   return (
-    <Box
-    sx={{ maxWidth: 400, flexGrow: 1 }}
-    className="image-carousel-main"
-    >
-      <SwipeableViews
-        axis={theme.direction === 'rtl' ? 'x-reverse' : 'x'}
-        index={activeStep}
-        onChangeIndex={handleStepChange}
-        enableMouseEvents
+    <div className="carousel-div">
+      <Box
+        sx={{ maxWidth: "800px", flexGrow: 1 }}
+        className="image-carousel-main"
       >
-        {images.map((step, index) => (
-          <div key={step}>
-            {Math.abs(activeStep - index) <= 2 ? (
-              <Box
-                className="image-carousel-box"
-                component="img"
-                sx={{
-                  height: 255,
-                  display: 'block',
-                  maxWidth: 400,
-                  overflow: 'hidden',
-                  width: '100%',
-                }}
-                src={`https://res.cloudinary.com/${import.meta.env.VITE_CLOUDINARY_CLOUD_NAME}/image/upload/c_fill,h_255,w_400/v1704205644/${step}.png`}
-                alt={step}
-              />
-            ) : null}
-          </div>
-        ))}
-      </SwipeableViews>
-      <MobileStepper
-        className="image-carousel-stepper"
-        steps={maxSteps}
-        position="static"
-        activeStep={activeStep}
-        nextButton={
-          <Button
-            size="small"
-            onClick={handleNext}
-            disabled={activeStep === maxSteps - 1}
-          >
-            Next
-            {theme.direction === 'rtl' ? (
-              <KeyboardArrowLeft />
-            ) : (
-              <KeyboardArrowRight />
-            )}
-          </Button>
-        }
-        backButton={
-          <Button size="small" onClick={handleBack} disabled={activeStep === 0}>
-            {theme.direction === 'rtl' ? (
-              <KeyboardArrowRight />
-            ) : (
-              <KeyboardArrowLeft />
-            )}
-            Back
-          </Button>
-        }
-      />
-    </Box>
+        <SwipeableViews
+          axis={theme.direction === 'rtl' ? 'x-reverse' : 'x'}
+          index={activeStep}
+          onChangeIndex={handleStepChange}
+          enableMouseEvents
+        >
+          {images.map((step, index) => (
+            <div key={step}>
+              {Math.abs(activeStep - index) <= 2 ? (
+                <Box
+                  className="image-carousel-box"
+                  component="img"
+                  sx={{
+                    display: 'block',
+                    maxWidth: "800px",
+                    overflow: 'hidden',
+                    maxHeight: "510px",
+                  }}
+                  src={`https://res.cloudinary.com/${import.meta.env.VITE_CLOUDINARY_CLOUD_NAME}/image/upload/c_fill,w_800,h_510/v1704205644/${step}.png`}
+                  alt={step}
+                />
+              ) : null}
+            </div>
+          ))}
+        </SwipeableViews>
+        <MobileStepper
+          className="image-carousel-stepper"
+          steps={maxSteps}
+          position="static"
+          activeStep={activeStep}
+          nextButton={
+            <Button
+              size="small"
+              onClick={handleNext}
+              disabled={activeStep === maxSteps - 1}
+            >
+              Next
+              {theme.direction === 'rtl' ? (
+                <KeyboardArrowLeft />
+              ) : (
+                <KeyboardArrowRight />
+              )}
+            </Button>
+          }
+          backButton={
+            <Button size="small" onClick={handleBack} disabled={activeStep === 0}>
+              {theme.direction === 'rtl' ? (
+                <KeyboardArrowRight />
+              ) : (
+                <KeyboardArrowLeft />
+              )}
+              Back
+            </Button>
+          }
+        />
+      </Box>
+    </div>
   );
 }
 

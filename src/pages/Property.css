@@ -3,9 +3,26 @@
     top: 10vh;
     font-family: roboto, sans-serif, arial ;
 }
+.header {
+    text-align: center;
+}
 
-@media only screen and (min-width: 1201px) {
+.description-box h3 {
+    text-align: center;
+}
+
+@media only screen and (max-width: 1199px) {
     .property-details-box {
-        margin: auto;
+        text-align: center;
+    }
+}
+
+@media only screen and (min-width: 1200px) {
+    .property-details-box {
+        max-width: 100%;
+        margin-bottom: 0px !important;
+    }
+    .property-details-grid  {
+        justify-content: flex-start !important;
     }
 }

@@ -28,43 +28,45 @@ export default function Property() {
     return (
         <div className="property-main">
             {property && (
-                <Grid container spacing="1">
-                    <Grid item xs={12} md={12} lg={8}>
-                        <Box>
-                            <h1>{property.name}</h1>
-                            <h2>{property.price}</h2>
-                            <ImageCarousel property={property} />
+                <Grid container spacing="1" alignItems="flex-end">
+                    <Grid item xs={12} md={12} lg={8.3}>
+                        <Box className="carousel-box">
+                            <h1 className="header">{property.name}</h1>
+                            <h2 className="header">{property.price}</h2>
+                            <ImageCarousel property={property}/>
                         </Box>
                     </Grid>
-                    <Grid item xs={12} md={12} lg={4}>
-
+                    <Grid item xs={12} md={12} lg={3.5}>
+                    <Grid
+                    container
+                    justifyContent="center"
+                    className="property-details-grid"
+                    >
                         <Box
+                            className="property-details-box"
                             sx={{
                                 border: "1px solid black",
                                 borderRadius: 2,
                                 backgroundColor: "white",
                                 m: 1,
-                                p: 2,
+                                mb: 1,
+                                mt: 1,
+                                p:2
+
                             }}
                         >
-                            <Grid
-                                container spacing="1"
-                                className="property-details-box"
-                                sx={{
-                                    textAlign: "center",
-                                }}
-                            >
-                                <Grid item xs={12} md={12} lg={12}>
+                            <Grid container>
+                                <Grid item xs={12} md={12} lg={12} sx={{textAlign: "center"}}>
                                     <h3>Property Details</h3>
                                 </Grid>
-                                <Grid item xs={6} md={6} lg={6}>
+                                <Grid item xs={6} md={6} lg={12}>
                                     <p><b>Property Type:</b> {property.propertyType}</p>
                                     <p><b>Address:</b> {property.address}</p>
                                     <p><b>City:</b> {property.city}</p>
                                     <p><b>State:</b> {property.state} </p>
                                     <p><b>Postal Code:</b> {property.postalCode}</p>
                                 </Grid>
-                                <Grid item xs={6} md={6} lg={6}>
+                                <Grid item xs={6} md={6} lg={12}>
                                     <p><b>Bedrooms:</b> {property.bedrooms}</p>
                                     <p><b>Bathrooms:</b> {property.bathrooms}</p>
                                     <p><b>House Size:</b> {property.squareFeet}</p>
@@ -73,15 +75,18 @@ export default function Property() {
                                 </Grid>
                             </Grid>
                         </Box>
-
+                        </Grid>
                     </Grid>
                     <Grid item xs={12} md={12} lg={12}>
                         <Box
+                            className="description-box"
                             sx={{
                                 border: "1px solid black",
                                 borderRadius: 2,
                                 backgroundColor: "white",
-                                m: 1,
+                                m: 5,
+                                mb: 11,
+                                mt: 1,
                                 p: 2,
                             }}
                         >
