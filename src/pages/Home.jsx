@@ -4,6 +4,8 @@ import { Box } from "@mui/material";
 import Typography from '@mui/material/Typography';
 import SearchForm from "../components/SearchForm";
 import PropertyCardStack from "../components/PropertyCardStack";
+import ContactForm from "../components/ContactForm";
+import Divider from "@mui/material/Divider";
 import './Home.css'
 import '@fontsource/roboto/300.css';
 import '@fontsource/roboto/400.css';
@@ -23,6 +25,21 @@ export default function Home() {
                 </Box>
             </Box>
             <PropertyCardStack />
+            <Divider variant="middle" sx={{mb: 2}}/>
+            <Box className="contact-container" sx={{ display: "flex", justifyContent: "center" }}>
+                <Box
+                    className="contactbox"
+                    sx={{
+                        border: "2px solid grey",
+                        borderRadius: "10px",
+                    }}
+                >
+                    <Typography variant="h4" sx={{ m: 2 }}>
+                        Lets get in touch!
+                    </Typography>
+                    <ContactForm />
+                </Box>
+            </Box>
         </Box>
     )
 }
