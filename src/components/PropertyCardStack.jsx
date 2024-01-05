@@ -2,6 +2,8 @@ import * as React from 'react';
 import PropertyCard from './PropertyCard'
 import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid';
+import Divider from '@mui/material/Divider';
+import Typography from '@mui/material/Typography';
 import { useState, useEffect } from 'react'
 
 export default function PropertyCardStack() {
@@ -25,10 +27,14 @@ export default function PropertyCardStack() {
     return (
         <Box sx={{
             flexGrow: 1,
-            p: 3,
+            p: 2,
             backgroundImage: 'linear-gradient(#24c5f3, white)'
         }}
         >
+            <Divider variant="middle" sx={{mt: 1}}/>
+            <Typography variant="h4" sx={{ m: 2 }}>
+                Featured Properties
+            </Typography>
             <Grid container spacing={2}>
             {
                         properties.slice(0,4).map((property, index) => {
