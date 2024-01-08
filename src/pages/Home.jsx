@@ -25,7 +25,7 @@ export default function Home() {
                 </Box>
             </Box>
             <PropertyCardStack />
-            <Divider variant="middle" sx={{mb: 2}}/>
+            <Divider variant="middle" sx={{ mb: 2 }} />
             <Box className="contact-container" sx={{ display: "flex", justifyContent: "center" }}>
                 <Box
                     className="contactbox"
@@ -36,6 +36,9 @@ export default function Home() {
                 >
                     <Typography variant="h4" sx={{ m: 2 }}>
                         Lets get in touch!
+                    </Typography>
+                    <Typography variant="h6" sx={{ color: "grey", m: 2 }}>
+                        Send us your info and we'll get in touch with you about your property needs.
                     </Typography>
                     <ContactForm />
                 </Box>
