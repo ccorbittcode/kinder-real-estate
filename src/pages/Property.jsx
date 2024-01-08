@@ -1,10 +1,12 @@
 import * as React from 'react';
 import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid';
+import { Typography } from '@mui/material';
 import { useState, useEffect } from 'react'
 import { useParams } from 'react-router-dom';
 import './Property.css';
 import ImageCarousel from '../components/ImageCarousel';
+import ContactForm from '../components/ContactForm';
 
 
 export default function Property() {
@@ -33,48 +35,48 @@ export default function Property() {
                         <Box className="carousel-box">
                             <h1 className="header">{property.name}</h1>
                             <h2 className="header">{property.price}</h2>
-                            <ImageCarousel property={property}/>
+                            <ImageCarousel property={property} />
                         </Box>
                     </Grid>
                     <Grid item xs={12} md={12} lg={3.5}>
-                    <Grid
-                    container
-                    justifyContent="center"
-                    className="property-details-grid"
-                    >
-                        <Box
-                            className="property-details-box"
-                            sx={{
-                                border: "1px solid black",
-                                borderRadius: 2,
-                                backgroundColor: "white",
-                                m: 1,
-                                mb: 1,
-                                mt: 1,
-                                p:2
-
-                            }}
+                        <Grid
+                            container
+                            justifyContent="center"
+                            className="property-details-grid"
                         >
-                            <Grid container>
-                                <Grid item xs={12} md={12} lg={12} sx={{textAlign: "center"}}>
-                                    <h3>Property Details</h3>
+                            <Box
+                                className="property-details-box"
+                                sx={{
+                                    border: "1px solid black",
+                                    borderRadius: 2,
+                                    backgroundColor: "white",
+                                    m: 1,
+                                    mb: 1,
+                                    mt: 1,
+                                    p: 2
+
+                                }}
+                            >
+                                <Grid container>
+                                    <Grid item xs={12} md={12} lg={12} sx={{ textAlign: "center" }}>
+                                        <h3>Property Details</h3>
+                                    </Grid>
+                                    <Grid item xs={6} md={6} lg={12}>
+                                        <p><b>Property Type:</b> {property.propertyType}</p>
+                                        <p><b>Address:</b> {property.address}</p>
+                                        <p><b>City:</b> {property.city}</p>
+                                        <p><b>State:</b> {property.state} </p>
+                                        <p><b>Postal Code:</b> {property.postalCode}</p>
+                                    </Grid>
+                                    <Grid item xs={6} md={6} lg={12}>
+                                        <p><b>Bedrooms:</b> {property.bedrooms}</p>
+                                        <p><b>Bathrooms:</b> {property.bathrooms}</p>
+                                        <p><b>House Size:</b> {property.squareFeet}</p>
+                                        <p><b>Lot Size:</b> {property.lotSize}</p>
+                                        <p><b>Year Built:</b> {property.yearBuilt}</p>
+                                    </Grid>
                                 </Grid>
-                                <Grid item xs={6} md={6} lg={12}>
-                                    <p><b>Property Type:</b> {property.propertyType}</p>
-                                    <p><b>Address:</b> {property.address}</p>
-                                    <p><b>City:</b> {property.city}</p>
-                                    <p><b>State:</b> {property.state} </p>
-                                    <p><b>Postal Code:</b> {property.postalCode}</p>
-                                </Grid>
-                                <Grid item xs={6} md={6} lg={12}>
-                                    <p><b>Bedrooms:</b> {property.bedrooms}</p>
-                                    <p><b>Bathrooms:</b> {property.bathrooms}</p>
-                                    <p><b>House Size:</b> {property.squareFeet}</p>
-                                    <p><b>Lot Size:</b> {property.lotSize}</p>
-                                    <p><b>Year Built:</b> {property.yearBuilt}</p>
-                                </Grid>
-                            </Grid>
-                        </Box>
+                            </Box>
                         </Grid>
                     </Grid>
                     <Grid item xs={12} md={12} lg={12}>
@@ -97,6 +99,24 @@ export default function Property() {
                     </Grid>
                 </Grid>
             )}
+            <Box className="contact-container" sx={{ display: "flex", justifyContent: "center" }}>
+                <Box sx={{
+                    className: "contactbox",
+                    border: "1px solid black",
+                    borderRadius: 2,
+                    mb: 10,
+                    backgroundColor: "white"
+                }}
+                >
+                    <Typography variant="h4" sx={{ m: 2, textAlign: "center" }}>
+                        Lets get in touch!
+                    </Typography>
+                    <Typography variant="h6" sx={{ textAlign: "center", color: "grey", m: 2 }}>
+                        Send us your info and we'll get contact you about this property.
+                    </Typography>
+                    <ContactForm />
+                </Box>
+            </Box>
         </div>
     )
 }

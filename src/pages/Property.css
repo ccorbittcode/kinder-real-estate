@@ -17,7 +17,37 @@
     }
 }
 
+@media only screen and (max-width: 700px) {
+    .contactbox {
+        width: 40rem;
+        margin-right: 10px;
+        margin-left: 10px;
+    }
+    .contact-container {
+        justify-content: center;
+    }
+}
+
+@media only screen and (min-width: 701px) and (max-width: 999px) {
+    .contactbox {
+        width: 40rem;
+    }
+
+}
+
+@media only screen and (min-width: 1000px) and (max-width: 1199px) {
+    .input-column {
+        margin-right: 15px;
+    }
+    .contactbox {
+        width: 40rem;
+    }
+}
+
 @media only screen and (min-width: 1200px) {
+    .input-column {
+        margin-right: 15px;
+    }
     .property-details-box {
         max-width: 100%;
         margin-bottom: 0px !important;
