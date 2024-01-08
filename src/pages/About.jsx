@@ -72,6 +72,7 @@ export default function About() {
                 </Grid>
                 <Grid item xs={1} md={1} lg={1}></Grid>
             </Grid>
+            <Divider variant="middle" sx={{ mb: 6, mr: 10, ml: 10 }} />
             <Box className="contact-container" sx={{ display: "flex", justifyContent: "center" }}>
                 <Box
                     className="contactbox"
