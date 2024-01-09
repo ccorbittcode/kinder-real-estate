@@ -110,4 +110,37 @@ propertyRoutes.route("/:id").delete((req, response) => {
     });
 });
 
+// This section will help you search properties based on multiple search parameters.
+propertyRoutes.route("/search").get(async function (req, response) {
+    let db_connect = await getDb("kinder-real-estate");
+    let searchParams = req.query;
+    // Convert numerical search parameters from string to number
+    if (searchParams.price) searchParams.price = Number(searchParams.price);
+    if (searchParams.bedrooms) searchParams.bedrooms = Number(searchParams.bedrooms);
+    if (searchParams.bathrooms) searchParams.bathrooms = Number(searchParams.bathrooms);
+    // Construct the query
+    let query = {};
+    if (searchParams.city) query.city = searchParams.city;
+    if (searchParams.bedrooms) query.bedrooms = searchParams.bedrooms;
+    if (searchParams.bathrooms) query.bathrooms = searchParams.bathrooms;
+    if (searchParams.price) query.price = searchParams.price;
+    // If a keyword is provided, search for it in the name and description fields
+    if (searchParams.keyword) {
+        query.$or = [
+            { name: { $regex: searchParams.keyword, $options: 'i' } },
+            { description: { $regex: searchParams.keyword, $options: 'i' } }
+        ];
+    }
+    try {
+        let res = await db_connect
+            .collection("properties")
+            .find(query)
+            .toArray();
+        response.json(res);
+    } catch (err) {
+        console.error(err);
+        response.status(500).send(err);
+    }
+});
+
 export default propertyRoutes;

@@ -8,6 +8,7 @@ import Account from './pages/Account'
 import Dashboard from './pages/Dashboard'
 import Layout from './components/Layout'
 import ErrorPage from './pages/ErrorPage'
+import Results from './pages/Results'
 import {
   createBrowserRouter,
   RouterProvider
@@ -51,6 +52,10 @@ const router = createBrowserRouter([
         path: "/edit/:id",
         element: <Dashboard />,
       },
+      {
+        path: "/results",
+        element: <Results />,
+      }
     ]
   },
 
