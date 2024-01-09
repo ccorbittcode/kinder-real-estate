@@ -6,6 +6,8 @@ import "./SearchForm.css"
 import Grid from "@mui/material/Grid";
 import SelectInput from "./SelectInput";
 import Button from '@mui/material/Button';
+import { useState } from "react";
+import { useNavigate } from 'react-router-dom';
 
 const priceOptions = [
     { type: "Price", value: 100000, label: "$100,000" },
@@ -58,30 +60,52 @@ const cityOptions = [
 
 
 export default function SearchForm() {
+    const navigate = useNavigate();
+    const [city, setCity] = useState("");
+    const [bedrooms, setBedrooms] = useState("");
+    const [bathrooms, setBathrooms] = useState("");
+    const [price, setPrice] = useState("");
+    const [keyword, setKeyword] = useState("");
+
+    const handleSubmit = async (event) => {
+        event.preventDefault();
+        try {
+            const response = await fetch(`http://localhost:5000/search?city=${city}&bedrooms=${bedrooms}&bathrooms=${bathrooms}&price=${price}&keyword=${keyword}`);
+            if (!response.ok) {
+              throw new Error(`HTTP error! status: ${response.status}`);
+            }
+            const data = await response.json();
+            navigate('/results', { state: { results: data } });
+          } catch (error) {
+            console.error(error);
+          }
+    };
     return (
         <div className="searchform" >
-            <form>
+            <form onSubmit={handleSubmit}>
                 <PropertyTypeSelector />
                 <Box sx={{ m: 2, p: 1.5 }}>
                     <Grid container spacing={1}>
                         <Grid item xs={6} md={4}>
-                            <SelectInput options={cityOptions} />
+                            <SelectInput options={cityOptions} onChange={(e) => setCity(e.target.value)} />
                         </Grid>
                         <Grid item xs={6} md={4}>
-                            <SelectInput options={bedOptions} />
+                            <SelectInput options={bedOptions} onChange={(e) => setBedrooms(e.target.value)} />
                         </Grid>
                         <Grid item xs={6} md={4}>
-                            <SelectInput options={bathOptions} />
+                            <SelectInput options={bathOptions} onChange={(e) => setBathrooms(e.target.value)} />
                         </Grid>
                         <Grid item xs={6} md={4}>
-                            <SelectInput options={priceOptions} />
+                            <SelectInput options={priceOptions} onChange={(e) => setPrice(e.target.value)} />
                         </Grid>
                         <Grid item xs={6} md={4}>
-                            <TextInput labelText="Keyword" />
+                            <TextInput labelText="Keyword" onChange={(e) => setKeyword(e.target.value)} />
                         </Grid>
                         <Grid item xs={6} md={4}>
                             <Button
-                                sx={{ m: 1, p: 2, width: '100%' }} variant="contained"
+                                type="submit"
+                                sx={{ m: 1, p: 2, width: '100%' }}
+                                variant="contained"
                             >
                                 Search
                             </Button>
