@@ -14,7 +14,7 @@
 
 @media only screen and (max-width: 700px) {
     .homeheader {
-        top: 25%;
+        top: 22%;
         width: 80%;
     }
     .contactbox {
@@ -29,7 +29,7 @@
 
 @media only screen and (min-width: 701px) and (max-width: 999px) {
     .homeheader {
-        top: 25%;
+        top: 22%;
         width: 80%;
     }
     .contactbox {

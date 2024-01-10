@@ -50,6 +50,7 @@ propertyRoutes.route("/properties/add").post(async function (req, response) {
         state: req.body.state,
         postalCode: req.body.postalCode,
         propertyType: req.body.propertyType,
+        rentOrSale: req.body.rentOrSale,
         price: req.body.price,
         bedrooms: req.body.bedrooms,
         bathrooms: req.body.bathrooms,
@@ -80,6 +81,7 @@ propertyRoutes.route("/update/:id").post(async function (req, response) {
             state: req.body.state,
             postalCode: req.body.postalCode,
             propertyType: req.body.propertyType,
+            rentOrSale: req.body.rentOrSale,
             price: req.body.price,
             bedrooms: req.body.bedrooms,
             bathrooms: req.body.bathrooms,
@@ -120,6 +122,7 @@ propertyRoutes.route("/search").get(async function (req, response) {
     if (searchParams.bathrooms) searchParams.bathrooms = Number(searchParams.bathrooms);
     // Construct the query
     let query = {};
+    if (searchParams.rentOrSale) query.rentOrSale = searchParams.rentOrSale;
     if (searchParams.city) query.city = searchParams.city;
     if (searchParams.bedrooms) query.bedrooms = searchParams.bedrooms;
     if (searchParams.bathrooms) query.bathrooms = searchParams.bathrooms;

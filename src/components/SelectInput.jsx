@@ -6,12 +6,7 @@ import Select from '@mui/material/Select';
 import './SelectInput.css'
 
 
-export default function SelectInput({ options, name }) {
-    const [value, setValue] = React.useState('');
-
-    const handleChange = (event) => {
-        setValue(event.target.value);
-    };
+export default function SelectInput({ options, name, value, onChange}) {
 
     return (
         <div>
@@ -22,7 +17,7 @@ export default function SelectInput({ options, name }) {
                     labelId={`${options[0].type.toLowerCase()}-select-label`}
                     id={`${options[0].type.toLowerCase()}-select`}
                     value={value}
-                    onChange={handleChange}
+                    onChange={onChange}
                     autoWidth
                     label={options[0].type.toLowerCase()}
                 >

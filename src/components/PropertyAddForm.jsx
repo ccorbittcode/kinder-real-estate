@@ -5,6 +5,7 @@ import ImageUploader from "./ImageUploader";
 import Button from '@mui/material/Button';
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import SelectInput from "./SelectInput";
 
 // const propertyTypeOptions = [
 //     { type: "Type", value: "Residential", label: "Residential" },
@@ -13,6 +14,11 @@ import { useNavigate } from "react-router-dom";
 //     { type: "Type", value: "Multi-Family", label: "Multi-Family" },
 //     { type: "Type", value: "Other", label: "Other" },
 // ];
+
+const rentOrSaleOptions = [
+    { type: "Rental or Sale", value: "rental", label: "Rental" },
+    { type: "Rental or Sale", value: "sale", label: "Sale"},
+]
 
 
 export default function PropertyAddForm() {
@@ -26,6 +32,7 @@ export default function PropertyAddForm() {
         state: "",
         postalCode: "",
         propertyType: "",
+        rentOrSale: "",
         price: "",
         bedrooms: "",
         bathrooms: "",
@@ -77,6 +84,7 @@ export default function PropertyAddForm() {
                 state: "",
                 postalCode: "",
                 propertyType: "",
+                rentOrSale: "",
                 price: "",
                 bedrooms: "",
                 bathrooms: "",
@@ -153,7 +161,15 @@ export default function PropertyAddForm() {
                             labelText="Property Type (commercial, residential, etc.)"
                         />
                     </Grid>
-                    <Grid item xs={4} md={8} lg={8}></Grid>
+                    <Grid item xs={3} md={3} lg={3}>
+                        <SelectInput
+                            name="rentOrSale"
+                            value={form.rentOrSale}
+                            options={rentOrSaleOptions}
+                            onChange={handleChange}
+                        />
+                    </Grid>
+                    <Grid item xs={1} md={5} lg={5}></Grid>
                     <Grid item xs={11} md={6} lg={4}>
                         <TextInput
                             name="price"

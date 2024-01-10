@@ -2,12 +2,10 @@ import * as React from 'react';
 import "./PropertyTypeSelector.css"
 import Button from '@mui/material/Button';
 import ButtonGroup from '@mui/material/ButtonGroup';
-import { useState } from 'react';
 
 
 
-export default function PropertyTypeSelector() {
-  const [active, setActive] = useState('all');
+export default function PropertyTypeSelector({active, setActive}) {
 
   const handleChange = (event) => {
     setActive(event.currentTarget.value);
@@ -18,33 +16,33 @@ export default function PropertyTypeSelector() {
       variant="contained"
       aria-label="button group"
       className="button-group"
-      sx ={{backgroundColor: "#ffffff", border: "0px", ml: 4, mr: 4, mt: 2.5,}}
+      sx ={{backgroundColor: "#ffffff", border: "0px", ml: 4, mr: 4, mt: 3, mb: 0}}
     >
       <Button
-        value="all"
+        value=""
         onClick={handleChange}
         className="button"
-        sx={{ backgroundColor: active === "all" ? "#000000" : "#333333" }}
+        sx={{ backgroundColor: active === "" ? "#000000" : "#333333" }}
       >
         All
       </Button>
       <Button
-        value="forRent"
+        value="rental"
         onClick={handleChange}
         className="button"
         sx={{
-          backgroundColor: active === "forRent" ? "#000000" : "#333333",
+          backgroundColor: active === "rental" ? "#000000" : "#333333",
           border: "0px",
          }}
       >
         For Rent
       </Button >
       <Button
-        value="forSale"
+        value="sale"
         onClick={handleChange}
         className="button"
         sx={{
-          backgroundColor: active === "forSale" ? "#000000" : "#333333",
+          backgroundColor: active === "sale" ? "#000000" : "#333333",
           border: "0px",
         }}
       >

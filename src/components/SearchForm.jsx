@@ -61,6 +61,7 @@ const cityOptions = [
 
 export default function SearchForm() {
     const navigate = useNavigate();
+    const [rentOrSale, setRentOrSale] = useState("");
     const [city, setCity] = useState("");
     const [bedrooms, setBedrooms] = useState("");
     const [bathrooms, setBathrooms] = useState("");
@@ -80,11 +81,12 @@ export default function SearchForm() {
             console.error(error);
           }
     };
+
     return (
         <div className="searchform" >
             <form onSubmit={handleSubmit}>
-                <PropertyTypeSelector />
-                <Box sx={{ m: 2, p: 1.5 }}>
+                <PropertyTypeSelector active={rentOrSale} setActive={setRentOrSale}/>
+                <Box sx={{ m: 2, mt: 0, p: 1.5, pr: 3.5, pb: 3 }}>
                     <Grid container spacing={1}>
                         <Grid item xs={6} md={4}>
                             <SelectInput options={cityOptions} onChange={(e) => setCity(e.target.value)} />
