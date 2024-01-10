@@ -7,7 +7,7 @@ import ContactForm from "../components/ContactForm"
 
 export default function About() {
     return (
-        <Box sx={{ mt: 10 }}>
+        <Box sx={{ mt: 10, backgroundImage: 'linear-gradient(#24c5f3, white)' }}>
             <Typography variant="h2" sx={{ p: 5, textAlign: "center" }}>About Us</Typography>
             <Divider variant="middle" sx={{ mb: 2, mr: 10, ml: 10 }} />
             <Grid container spacing={2} sx={{ p: 3 }}>
