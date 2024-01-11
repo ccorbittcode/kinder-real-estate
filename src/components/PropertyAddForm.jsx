@@ -237,13 +237,6 @@ export default function PropertyAddForm() {
                     </Grid>
                     <Grid item xs={1} md={4} lg={4}></Grid>
                     <Grid item xs={11} md={8} lg={6}>
-                        {/* <TextInput
-                            name="imageUrl"
-                            value={form.imageUrl}
-                            onChange={handleChange}
-                            className="form-input"
-                            labelText="Image URL"
-                        /> */}
                         <ImageUploader setPublicIds={setPublicIds} setLoading={setLoading} publicIds={publicIds}/>
                     </Grid>
                     <Grid item xs={1} md={4} lg={6}></Grid>
