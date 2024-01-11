@@ -40,6 +40,7 @@ export default function PropertyList() {
             }}
             >
                 <Grid container spacing={2}>
+                    // mapping over the properties array and displaying each property
                     {
                         properties.map((property, index) => {
                             return (
