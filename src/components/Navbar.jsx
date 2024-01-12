@@ -16,6 +16,7 @@ import { createTheme } from '@mui/material/styles';
 import { ThemeProvider } from '@mui/material';
 import './Navbar.css';
 import { Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 const theme = createTheme({
   palette: {
@@ -43,14 +44,16 @@ const pages = [
 
 // const settings = ['Account', 'Dashboard', 'Logout'];
 const settings = [
+  { name: 'Signup', path: '/signup' },
+  { name: 'Login', path: '/login' },
   { name: 'Account', path: '/account' },
   { name: 'Dashboard', path: '/dashboard' },
-  { name: 'Logout', path: '/logout' },
 ]
 
 export default function Navbar() {
   const [anchorElNav, setAnchorElNav] = React.useState(null);
   const [anchorElUser, setAnchorElUser] = React.useState(null);
+  const navigate = useNavigate();
 
   const handleOpenNavMenu = (event) => {
     setAnchorElNav(event.currentTarget);
@@ -66,6 +69,19 @@ export default function Navbar() {
   const handleCloseUserMenu = () => {
     setAnchorElUser(null);
   };
+
+  const handleLogout = async () => {
+    // Make a GET request to the logout route
+    const response = await fetch('http://localhost:5000/logout');
+
+    if (response.ok) {
+        // If the logout was successful, redirect to the home page
+        navigate('/');
+    } else {
+        // Handle any errors
+        console.error('Logout failed');
+    }
+};
 
   return (
     <ThemeProvider theme={theme}>
@@ -117,7 +133,7 @@ export default function Navbar() {
                 open={Boolean(anchorElNav)}
                 onClose={handleCloseNavMenu}
                 sx={{
-                  display: { xs: 'block', md: 'none'},
+                  display: { xs: 'block', md: 'none' },
                 }}
               >
                 {pages.map((page) => (
@@ -200,6 +216,12 @@ export default function Navbar() {
                     </Typography>
                   </MenuItem>
                 ))}
+                <MenuItem
+                  key='logout'
+                  onClick={handleLogout}
+                >
+                  Logout
+                </MenuItem>
               </Menu>
             </Box>
           </Toolbar>

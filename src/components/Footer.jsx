@@ -15,6 +15,7 @@ export default function Footer() {
           pb: 4,
           textAlign: "center",
           backgroundImage: 'linear-gradient(white,#24c5f3)',
+          marginTop: "auto",
         }}
       >
         <Divider variant="middle" sx={{ mt: 4, mb: 4 }} />
