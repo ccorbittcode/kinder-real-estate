@@ -1,4 +1,21 @@
 import express from "express";
+import passport from "passport";
+import { Strategy as LocalStrategy } from "passport-local";
+import bcrypt from "bcrypt";
+import dotenv from 'dotenv';
+
+dotenv.config();
+
+//authentication middleware
+function ensureAuthenticated(req, res, next) {
+    if (req.isAuthenticated()) {
+        // User is authenticated, call the next middleware function
+        return next();
+    } else {
+        // User is not authenticated, redirect to the login page
+        res.redirect('/login');
+    }
+}
 
 // The router will be added as a middleware and will take control of requests starting with path /record.
 const propertyRoutes = express.Router();
@@ -9,8 +26,66 @@ import { getDb } from "../db/conn.js";
 // This help convert the id from string to ObjectId for the _id.
 import { ObjectId } from "mongodb";
 
+// Passport.js setup
+passport.use(new LocalStrategy(
+  async function(username, password, done) {
+    let db_connect = await getDb("kinder-real-estate");
+    let user = await db_connect.collection("users").findOne({ username: username });
+    if (!user) {
+      return done(null, false, { message: 'Incorrect username.' });
+    }
+    if (!bcrypt.compareSync(password, user.password)) {
+      return done(null, false, { message: 'Incorrect password.' });
+    }
+    return done(null, user);
+  }
+));
 
-// This section will help you get a list of all the propertys.
+passport.serializeUser(function(user, done) {
+  done(null, user._id);
+});
+
+passport.deserializeUser(async function(id, done) {
+  let db_connect = await getDb("kinder-real-estate");
+  let user = await db_connect.collection("users").findOne({ _id: new ObjectId(id) });
+  done(null, user);
+});
+
+// Signup route
+propertyRoutes.route("/signup").post(async function(req, res) {
+    let db_connect = await getDb("kinder-real-estate");
+    let hashedPassword = bcrypt.hashSync(req.body.password, 10);
+    let user = {
+      username: req.body.username,
+      password: hashedPassword
+    };
+    try {
+      let result = await db_connect.collection("users").insertOne(user);
+      res.json(result);
+    } catch (err) {
+      console.error(err);
+      res.status(500).send(err);
+    }
+  });
+
+// Login route
+propertyRoutes.route("/login").post(passport.authenticate('local', { failureRedirect: '/login' }), function(req, res) {
+  res.redirect('/properties');
+});
+
+// Logout route
+propertyRoutes.route("/logout").get(ensureAuthenticated, function(req, res){
+  req.logout(() => {});
+  res.redirect('/properties');
+});
+
+//Dashboard route
+propertyRoutes.route("/dashboard").get(ensureAuthenticated, function (req, res) {
+    // User is authenticated, send the dashboard page
+    res.send('Dashboard page');
+});
+
+// This section lists of all the properties.
 propertyRoutes.route("/properties").get(async function (req, response) {
     let db_connect = await getDb("kinder-real-estate");
     try {
@@ -25,7 +100,7 @@ propertyRoutes.route("/properties").get(async function (req, response) {
     }
 });
 
-// This section will help you get a single property by id
+// This section gets a single property by id
 propertyRoutes.route("/property/:id").get( async function (req, response) {
     let db_connect = await getDb();
     let myquery = { _id: new ObjectId(req.params.id) };
@@ -40,7 +115,7 @@ propertyRoutes.route("/property/:id").get( async function (req, response) {
     }
 });
 
-// This section will help you create a new property.
+// This section creates a new property.
 propertyRoutes.route("/properties/add").post(async function (req, response) {
     let db_connect = await getDb("kinder-real-estate");
     let myobj = {
@@ -69,7 +144,7 @@ propertyRoutes.route("/properties/add").post(async function (req, response) {
     }
 });
 
-// This section will help you update a property by id.
+// This section updates a property by id.
 propertyRoutes.route("/update/:id").post(async function (req, response) {
     let db_connect = await getDb();
     let myquery = { _id: ObjectId(req.params.id) };
@@ -101,7 +176,7 @@ propertyRoutes.route("/update/:id").post(async function (req, response) {
         });
 });
 
-// This section will help you delete a property
+// This section deletes a property
 propertyRoutes.route("/:id").delete((req, response) => {
     let db_connect = getDb();
     let myquery = { _id: ObjectId(req.params.id) };
@@ -112,7 +187,7 @@ propertyRoutes.route("/:id").delete((req, response) => {
     });
 });
 
-// This section will help you search properties based on multiple search parameters.
+// This section searches properties based on multiple search parameters.
 propertyRoutes.route("/search").get(async function (req, response) {
     let db_connect = await getDb("kinder-real-estate");
     let searchParams = req.query;

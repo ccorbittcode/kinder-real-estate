@@ -89,16 +89,16 @@ export default function SearchForm() {
                 <Box sx={{ m: 2, mt: 0, p: 1.5, pr: 3.5, pb: 3 }}>
                     <Grid container spacing={1}>
                         <Grid item xs={6} md={4}>
-                            <SelectInput options={cityOptions} onChange={(e) => setCity(e.target.value)} />
+                            <SelectInput value={city} options={cityOptions} onChange={(e) => setCity(e.target.value)} />
                         </Grid>
                         <Grid item xs={6} md={4}>
-                            <SelectInput options={bedOptions} onChange={(e) => setBedrooms(e.target.value)} />
+                            <SelectInput value={bedrooms} options={bedOptions} onChange={(e) => setBedrooms(e.target.value)} />
                         </Grid>
                         <Grid item xs={6} md={4}>
-                            <SelectInput options={bathOptions} onChange={(e) => setBathrooms(e.target.value)} />
+                            <SelectInput value={bathrooms} options={bathOptions} onChange={(e) => setBathrooms(e.target.value)} />
                         </Grid>
                         <Grid item xs={6} md={4}>
-                            <SelectInput options={priceOptions} onChange={(e) => setPrice(e.target.value)} />
+                            <SelectInput value={price} options={priceOptions} onChange={(e) => setPrice(e.target.value)} />
                         </Grid>
                         <Grid item xs={6} md={4}>
                             <TextInput labelText="Keyword" onChange={(e) => setKeyword(e.target.value)} />

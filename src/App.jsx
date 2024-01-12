@@ -9,6 +9,8 @@ import Dashboard from './pages/Dashboard'
 import Layout from './components/Layout'
 import ErrorPage from './pages/ErrorPage'
 import Results from './pages/Results'
+import Signup from './pages/Signup'
+import Login from './pages/Login'
 import {
   createBrowserRouter,
   RouterProvider
@@ -55,7 +57,15 @@ const router = createBrowserRouter([
       {
         path: "/results",
         element: <Results />,
-      }
+      },
+      {
+        path: "/signup",
+        element: <Signup />,
+      },
+      {
+        path: "/login",
+        element: <Login />,
+      },
     ]
   },
 
