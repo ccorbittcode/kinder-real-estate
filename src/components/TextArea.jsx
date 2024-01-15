@@ -20,7 +20,6 @@ export default function TextArea({ labelText, name, value, onChange }) {
                 label={labelText}
                 multiline
                 rows={4}
-                defaultValue=""
             />
         </Box>
     )

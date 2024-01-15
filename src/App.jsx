@@ -1,4 +1,5 @@
 import './App.css'
+import ProtectedRoute from './components/ProtectedRoute'
 import Home from './pages/Home'
 import Properties from './pages/Properties'
 import Property from './pages/Property'
@@ -44,15 +45,15 @@ const router = createBrowserRouter([
       },
       {
         path: "/account",
-        element: <Account />,
+        element: <ProtectedRoute><Account /></ProtectedRoute>,
       },
       {
         path: "/dashboard",
-        element: <Dashboard />,
+        element: <ProtectedRoute><Dashboard /></ProtectedRoute>,
       },
       {
         path: "/edit/:id",
-        element: <Dashboard />,
+        element: <ProtectedRoute><Dashboard /></ProtectedRoute>,
       },
       {
         path: "/results",

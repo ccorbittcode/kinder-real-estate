@@ -6,16 +6,8 @@ import dotenv from 'dotenv';
 
 dotenv.config();
 
-//authentication middleware
-function ensureAuthenticated(req, res, next) {
-    if (req.isAuthenticated()) {
-        // User is authenticated, call the next middleware function
-        return next();
-    } else {
-        // User is not authenticated, redirect to the login page
-        res.redirect('/login');
-    }
-}
+//error handling middleware
+
 
 // The router will be added as a middleware and will take control of requests starting with path /record.
 const propertyRoutes = express.Router();
@@ -26,64 +18,84 @@ import { getDb } from "../db/conn.js";
 // This help convert the id from string to ObjectId for the _id.
 import { ObjectId } from "mongodb";
 
+// Define the asyncHandler function
+function asyncHandler(fn) {
+    return function(req, res, next) {
+      return Promise
+        .resolve(fn(req, res, next))
+        .catch(next);
+    }
+  }
+
 // Passport.js setup
 passport.use(new LocalStrategy(
-  async function(username, password, done) {
-    let db_connect = await getDb("kinder-real-estate");
-    let user = await db_connect.collection("users").findOne({ username: username });
-    if (!user) {
-      return done(null, false, { message: 'Incorrect username.' });
+    async function (username, password, done) {
+        let db_connect = await getDb("kinder-real-estate");
+        let user = await db_connect.collection("users").findOne({ username: username });
+        if (!user) {
+            return done(null, false, { message: 'Incorrect username.' });
+        }
+        if (!bcrypt.compareSync(password, user.password)) {
+            return done(null, false, { message: 'Incorrect password.' });
+        }
+        return done(null, user);
     }
-    if (!bcrypt.compareSync(password, user.password)) {
-      return done(null, false, { message: 'Incorrect password.' });
-    }
-    return done(null, user);
-  }
 ));
 
-passport.serializeUser(function(user, done) {
-  done(null, user._id);
+passport.serializeUser(function (user, done) {
+    done(null, user._id);
 });
 
-passport.deserializeUser(async function(id, done) {
-  let db_connect = await getDb("kinder-real-estate");
-  let user = await db_connect.collection("users").findOne({ _id: new ObjectId(id) });
-  done(null, user);
+passport.deserializeUser(async function (id, done) {
+    let db_connect = await getDb("kinder-real-estate");
+    let user = await db_connect.collection("users").findOne({ _id: new ObjectId(id) });
+    done(null, user);
+});
+
+propertyRoutes.route("/api/auth/check").get(function (req, res) {
+    if (req.isAuthenticated()) {
+        res.json({ isAuthenticated: true });
+    } else {
+        res.json({ isAuthenticated: false });
+    }
 });
 
 // Signup route
-propertyRoutes.route("/signup").post(async function(req, res) {
+propertyRoutes.route("/signup").post(async function (req, res) {
     let db_connect = await getDb("kinder-real-estate");
     let hashedPassword = bcrypt.hashSync(req.body.password, 10);
     let user = {
-      username: req.body.username,
-      password: hashedPassword
+        username: req.body.username,
+        password: hashedPassword
     };
     try {
-      let result = await db_connect.collection("users").insertOne(user);
-      res.json(result);
+        let result = await db_connect.collection("users").insertOne(user);
+        res.json(result);
     } catch (err) {
-      console.error(err);
-      res.status(500).send(err);
+        console.error(err);
+        res.status(500).send(err);
     }
-  });
+});
 
 // Login route
-propertyRoutes.route("/login").post(passport.authenticate('local', { failureRedirect: '/login' }), function(req, res) {
-  res.redirect('/properties');
+propertyRoutes.route("/login").post(passport.authenticate('local', { failureRedirect: '/login' }), function (req, res) {
+    res.redirect('/properties');
 });
 
 // Logout route
-propertyRoutes.route("/logout").get(ensureAuthenticated, function(req, res){
-  req.logout(() => {});
-  res.redirect('/properties');
-});
+propertyRoutes.route("/logout").get(asyncHandler(function (req, res) {
+    req.logout(req.user, err => {
+        if (err) {return next(err);}
+    });
+    // Send a response indicating that the logout was successful
+    res.status(200).json({ message: 'Logout successful' });
+}));
 
 //Dashboard route
-propertyRoutes.route("/dashboard").get(ensureAuthenticated, function (req, res) {
-    // User is authenticated, send the dashboard page
-    res.send('Dashboard page');
-});
+// propertyRoutes.route("/dashboard").get(function (req, res) {
+//     // User is authenticated, send the dashboard page
+//     res.send('Dashboard page');
+// });
 
 // This section lists of all the properties.
 propertyRoutes.route("/properties").get(async function (req, response) {
@@ -101,7 +113,7 @@ propertyRoutes.route("/properties").get(async function (req, response) {
 });
 
 // This section gets a single property by id
-propertyRoutes.route("/property/:id").get( async function (req, response) {
+propertyRoutes.route("/property/:id").get(async function (req, response) {
     let db_connect = await getDb();
     let myquery = { _id: new ObjectId(req.params.id) };
     try {
@@ -109,7 +121,7 @@ propertyRoutes.route("/property/:id").get( async function (req, response) {
             .collection("properties")
             .findOne(myquery);
         response.json(res);
-    }   catch (err) {
+    } catch (err) {
         console.error(err);
         response.status(500).send(err);
     }
