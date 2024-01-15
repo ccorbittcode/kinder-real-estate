@@ -76,6 +76,7 @@ export default function Navbar() {
 
     if (response.ok) {
         // If the logout was successful, redirect to the home page
+        console.log('Logout successful');
         navigate('/');
     } else {
         // Handle any errors
