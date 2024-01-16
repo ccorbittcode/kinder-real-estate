@@ -72,7 +72,7 @@ export default function Navbar() {
 
   const handleLogout = async () => {
     // Make a GET request to the logout route
-    const response = await fetch('http://localhost:5000/logout');
+    const response = await fetch('http://localhost:5000/logout', { credentials: 'include' });
 
     if (response.ok) {
         // If the logout was successful, redirect to the home page
@@ -139,7 +139,7 @@ export default function Navbar() {
               >
                 {pages.map((page) => (
                   <MenuItem key={page.name} onClick={handleCloseNavMenu}>
-                    <Typography textAlign="center" href={page.path}>
+                    <Typography textAlign="center">
                       <Link to={page.path} className='navbarmenulink'>
                         {page.name}
                       </Link>
@@ -172,7 +172,6 @@ export default function Navbar() {
               {pages.map((page) => (
                 <Button
                   key={page.name}
-                  href={page.path}
                   onClick={handleCloseNavMenu}
                   sx={{ my: 2, color: 'white', display: 'block' }}
                 >

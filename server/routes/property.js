@@ -78,24 +78,39 @@ propertyRoutes.route("/signup").post(async function (req, res) {
 });
 
 // Login route
-propertyRoutes.route("/login").post(passport.authenticate('local', { failureRedirect: '/login' }), function (req, res) {
-    res.redirect('/properties');
+
+// propertyRoutes.route("/login").post(passport.authenticate('local', { failureRedirect: '/login' }), function (req, res) {
+//     res.redirect('/properties');
+// });
+
+propertyRoutes.route("/login").post(function (req, res, next) {
+    passport.authenticate('local', function(err, user, info) {
+        if (err) {
+            return next(err);
+        }
+        if (!user) {
+            // Authentication failed
+            return res.status(401).json({ message: 'Authentication failed' });
+        }
+        req.logIn(user, function(err) {
+            if (err) {
+                return next(err);
+            }
+            // Authentication succeeded
+            return res.status(200).json({ message: 'Authentication succeeded' });
+        });
+    })(req, res, next);
 });
 
 // Logout route
-propertyRoutes.route("/logout").get(asyncHandler(function (req, res) {
-    req.logout(req.user, err => {
+propertyRoutes.route("/logout").get(asyncHandler(async function (req, res) {
+    await req.logout(err => {
         if (err) {return next(err);}
     });
+    await res.clearCookie('connect.sid');
     // Send a response indicating that the logout was successful
     res.status(200).json({ message: 'Logout successful' });
 }));
-
-//Dashboard route
-// propertyRoutes.route("/dashboard").get(function (req, res) {
-//     // User is authenticated, send the dashboard page
-//     res.send('Dashboard page');
-// });
 
 // This section lists of all the properties.
 propertyRoutes.route("/properties").get(async function (req, response) {
