@@ -9,7 +9,7 @@ function LoginForm() {
     const [password, setPassword] = useState('');
     const navigate = useNavigate();
 
-    const handleSubmit = async (event) => {
+    const handleLogin = async (event) => {
         event.preventDefault();
 
         try {
@@ -37,7 +37,7 @@ function LoginForm() {
 
     return (
         <Box sx={{ m: 10 }}>
-            <form onSubmit={handleSubmit}>
+            <form onSubmit={handleLogin}>
                 <Box className="signup-box" sx={{
                     m: 10,
                     display: "flex",

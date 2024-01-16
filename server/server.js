@@ -17,8 +17,7 @@ app.use(express.json());
 app.use(session({
     secret: process.env.VITE_PASSPORT_SECRET,
     resave: false,
-    saveUninitialized: true,
-    store: new session.MemoryStore(),
+    saveUninitialized: false,
     cookie: {
       httpOnly: true,
       secure: false,
