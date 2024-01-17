@@ -5,6 +5,7 @@ import Tab from '@mui/material/Tab';
 import './DashboardTabs.css';
 import { useState } from 'react';
 import PropertyAddForm from './PropertyAddForm';
+import ChangePassword from './ChangePassword';
 
 export default function DashboardTabs() {
   const [value, setValue] = useState(0);
@@ -19,25 +20,24 @@ export default function DashboardTabs() {
       width: '100%',
       bgcolor: 'background.paper',
       backgroundImage: 'linear-gradient(white, #24c5f3)'
-      }}
+    }}
       className="dashboard-tabs"
-      >
+    >
       <Tabs value={value} onChange={handleChange} centered>
         <Tab label="Add Property" />
-        <Tab label="Edit Profile" />
-        <Tab label="Account Settings" />
+        <Tab label="Change Password" />
+        <Tab label="Change Avatar" />
       </Tabs>
 
       {value === 0 && (
         <div className={prevValue === 0 ? "slide-in" : "slide-out"}>
-          <PropertyAddForm/>
+          <PropertyAddForm />
         </div>
       )}
 
       {value === 1 && (
         <div className={prevValue === 0 ? "slide-in" : "slide-out"}>
-          <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Dignissimos impedit asperiores pariatur dolor nesciunt fugit aspernatur quia beatae eius qui neque quam blanditiis modi praesentium, natus incidunt consectetur exercitationem accusamus.</p>
-          <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Dignissimos impedit asperiores pariatur dolor nesciunt fugit aspernatur quia beatae eius qui neque quam blanditiis modi praesentium, natus incidunt consectetur exercitationem accusamus.</p>
+          <ChangePassword />
         </div>
       )}
 

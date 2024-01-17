@@ -5,7 +5,6 @@ import Properties from './pages/Properties'
 import Property from './pages/Property'
 import Contact from './pages/Contact'
 import About from './pages/About'
-import Account from './pages/Account'
 import Dashboard from './pages/Dashboard'
 import Layout from './components/Layout'
 import ErrorPage from './pages/ErrorPage'
@@ -44,10 +43,6 @@ const router = createBrowserRouter([
         element: <About />,
       },
       {
-        path: "/account",
-        element: <ProtectedRoute><Account /></ProtectedRoute>,
-      },
-      {
         path: "/dashboard",
         element: <ProtectedRoute><Dashboard /></ProtectedRoute>,
       },
@@ -61,7 +56,7 @@ const router = createBrowserRouter([
       },
       {
         path: "/signup",
-        element: <Signup />,
+        element: <ProtectedRoute><Signup /></ProtectedRoute>,
       },
       {
         path: "/login",

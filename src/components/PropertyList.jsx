@@ -30,7 +30,7 @@ export default function PropertyList() {
         const newProperties = properties.filter((el) => el._id !== id);
         setProperties(newProperties);
     }
-
+    // returns a map over the properties array and displays each property
     return (
         <>
             <Box sx={{
@@ -40,7 +40,6 @@ export default function PropertyList() {
             }}
             >
                 <Grid container spacing={2}>
-                    // mapping over the properties array and displaying each property
                     {
                         properties.map((property, index) => {
                             return (

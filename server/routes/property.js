@@ -79,10 +79,6 @@ propertyRoutes.route("/signup").post(async function (req, res) {
 
 // Login route
 
-// propertyRoutes.route("/login").post(passport.authenticate('local', { failureRedirect: '/login' }), function (req, res) {
-//     res.redirect('/properties');
-// });
-
 propertyRoutes.route("/login").post(function (req, res, next) {
     passport.authenticate('local', function(err, user, info) {
         if (err) {
@@ -111,6 +107,27 @@ propertyRoutes.route("/logout").get(asyncHandler(async function (req, res) {
     // Send a response indicating that the logout was successful
     res.status(200).json({ message: 'Logout successful' });
 }));
+
+// Change password route
+propertyRoutes.route("/change-password").post(async function (req, res) {
+    let db_connect = await getDb("kinder-real-estate");
+    let user = await db_connect.collection("users").findOne({ username: req.body.username });
+    if (!user) {
+        return res.status(400).json({ message: 'Cannot find user' });
+    }
+    if (!bcrypt.compareSync(req.body.oldPassword, user.password)) {
+        return res.status(400).json({ message: 'Old password is incorrect' });
+    }
+    let hashedPassword = bcrypt.hashSync(req.body.newPassword, 10);
+    let newvalues = { $set: { password: hashedPassword } };
+    try {
+        let result = await db_connect.collection("users").updateOne({ username: req.body.username }, newvalues);
+        res.json({ message: 'Password changed successfully' });
+    } catch (err) {
+        console.error(err);
+        res.status(500).send(err);
+    }
+});
 
 // This section lists of all the properties.
 propertyRoutes.route("/properties").get(async function (req, response) {

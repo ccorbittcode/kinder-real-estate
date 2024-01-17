@@ -17,6 +17,7 @@ import { ThemeProvider } from '@mui/material';
 import './Navbar.css';
 import { Link } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
+import { useState } from 'react';
 
 const theme = createTheme({
   palette: {
@@ -35,25 +36,22 @@ const theme = createTheme({
   },
 });
 
-// const pages = ['Properties', 'Contact', 'About Us'];
 const pages = [
   { name: 'Properties', path: '/properties' },
   { name: 'Contact', path: '/contact' },
   { name: 'About Us', path: '/about' },
 ]
 
-// const settings = ['Account', 'Dashboard', 'Logout'];
 const settings = [
-  { name: 'Signup', path: '/signup' },
-  { name: 'Login', path: '/login' },
-  { name: 'Account', path: '/account' },
   { name: 'Dashboard', path: '/dashboard' },
+  { name: 'Register New Realtor', path: '/signup' },
 ]
 
-export default function Navbar() {
-  const [anchorElNav, setAnchorElNav] = React.useState(null);
-  const [anchorElUser, setAnchorElUser] = React.useState(null);
+export default function Navbar({user, setUser}) {
+  const [anchorElNav, setAnchorElNav] = useState(null);
+  const [anchorElUser, setAnchorElUser] = useState(null);
   const navigate = useNavigate();
+
 
   const handleOpenNavMenu = (event) => {
     setAnchorElNav(event.currentTarget);
@@ -75,14 +73,15 @@ export default function Navbar() {
     const response = await fetch('http://localhost:5000/logout', { credentials: 'include' });
 
     if (response.ok) {
-        // If the logout was successful, redirect to the home page
-        console.log('Logout successful');
-        navigate('/');
+      // If the logout was successful, redirect to the home page
+      setUser(null);
+      console.log('Logout successful');
+      navigate('/');
     } else {
-        // Handle any errors
-        console.error('Logout failed');
+      // Handle any errors
+      console.error('Logout failed');
     }
-};
+  };
 
   return (
     <ThemeProvider theme={theme}>
@@ -185,7 +184,7 @@ export default function Navbar() {
             <Box sx={{ flexGrow: 0 }}>
               <Tooltip title="Open settings">
                 <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                  <Avatar alt="Jay Kinder" src="/static/images/avatar/2.jpg" />
+                  <Avatar alt="Jay Kinder" src="/public/jayrealestate.png" />
                 </IconButton>
               </Tooltip>
               <Menu
@@ -205,23 +204,39 @@ export default function Navbar() {
                 onClose={handleCloseUserMenu}
               >
                 {settings.map((setting) => (
+                  user && (
+                    <MenuItem
+                      key={setting.name}
+                      onClick={handleCloseUserMenu}
+                    >
+                      <Typography textAlign="center">
+                        <Link to={setting.path} className='navbarmenulink'>
+                          {setting.name}
+                        </Link>
+                      </Typography>
+                    </MenuItem>
+                  )
+                ))}
+                {!user && (
                   <MenuItem
-                    key={setting.name}
+                    key='login'
                     onClick={handleCloseUserMenu}
                   >
                     <Typography textAlign="center">
-                      <Link to={setting.path} className='navbarmenulink'>
-                        {setting.name}
+                      <Link to='/login' className='navbarmenulink'>
+                        Login
                       </Link>
                     </Typography>
                   </MenuItem>
-                ))}
-                <MenuItem
-                  key='logout'
-                  onClick={handleLogout}
-                >
-                  Logout
-                </MenuItem>
+                )}
+                {user && (
+                  <MenuItem
+                    key='logout'
+                    onClick={handleLogout}
+                  >
+                    Logout
+                  </MenuItem>
+                )}
               </Menu>
             </Box>
           </Toolbar>
