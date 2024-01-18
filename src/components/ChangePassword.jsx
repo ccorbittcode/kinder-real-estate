@@ -1,11 +1,18 @@
 import React, { useState } from "react";
 import { Box } from "@mui/material";
 import Typography from "@mui/material/Typography";
+import { useContext } from "react";
+import { UserContext } from "../components/UserContext";
+import { useNavigate } from "react-router-dom";
 
 export default function ChangePassword() {
     const [currentPassword, setCurrentPassword] = useState('');
     const [newPassword, setNewPassword] = useState('');
     const [confirmNewPassword, setConfirmNewPassword] = useState('');
+    const [showPassword, setShowPassword] = useState(false);
+    const navigate = useNavigate();
+
+    const { user } = useContext(UserContext);
 
     const handleSubmit = async (event) => {
         event.preventDefault();
@@ -21,11 +28,15 @@ export default function ChangePassword() {
                 headers: {
                     'Content-Type': 'application/json'
                 },
-                body: JSON.stringify({ username: 'your-username', oldPassword: currentPassword, newPassword })
+                body: JSON.stringify({ username: user, oldPassword: currentPassword, newPassword })
             });
 
             if (response.ok) {
                 alert('Password changed successfully');
+                setCurrentPassword('');
+                setNewPassword('');
+                setConfirmNewPassword('');
+                setShowPassword(false);
             } else {
                 const data = await response.json();
                 alert(data.message);
@@ -55,9 +66,10 @@ export default function ChangePassword() {
                     <Typography variant="h4" sx={{ m: 2 }}>
                         Change Password
                     </Typography>
-                    <input type="password" value={currentPassword} onChange={(e) => setCurrentPassword(e.target.value)} placeholder="Old Password" required />
-                    <input type="password" value={newPassword} onChange={(e) => setNewPassword(e.target.value)} placeholder="New Password" required />
-                    <input type="password" value={confirmNewPassword} onChange={(e) => setConfirmNewPassword(e.target.value)} placeholder="Confirm New Password" required />
+                    <input type={showPassword ? "text" : "password"} value={currentPassword} onChange={(e) => setCurrentPassword(e.target.value)} placeholder="Old Password" required />
+                    <input type={showPassword ? "text" : "password"} value={newPassword} onChange={(e) => setNewPassword(e.target.value)} placeholder="New Password" required />
+                    <input type={showPassword ? "text" : "password"} value={confirmNewPassword} onChange={(e) => setConfirmNewPassword(e.target.value)} placeholder="Confirm New Password" required />
+                    <button type="button" onClick={() => setShowPassword(!showPassword)}>{showPassword ? "Hide Passwords" : "Show Passwords"}</button>
                     <button type="submit">Change Password</button>
                 </Box>
             </form>

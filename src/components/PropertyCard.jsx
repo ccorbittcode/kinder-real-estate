@@ -6,25 +6,34 @@ import CardMedia from '@mui/material/CardMedia';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import { Link } from 'react-router-dom';
+import { Box } from '@mui/material';
+
+function stripHTML(html) {
+  var text = html.replace(/<br>/g, ' ').replace(/<\/?p>/g, ' ');
+  var doc = new DOMParser().parseFromString(text, 'text/html');
+  return doc.body.textContent || "";
+}
 
 export default function PropertyCard({ property }) {
+  const descriptionText = stripHTML(property.description).substring(0, 120);
+
   return (
-    <Card sx={{ maxWidth: 345 }}>
+    <Card sx={{ maxWidth: 345, display: "flex", flexDirection: "column" }}>
       <CardMedia
         component="img"
         alt="Property Image"
         height="140"
         image={`https://res.cloudinary.com/${import.meta.env.VITE_CLOUDINARY_CLOUD_NAME}/image/upload/v1704205644/${property.images[0]}.png`}
       />
-      <CardContent>
+      <CardContent sx={{ flexGrow: 1 }}>
         <Typography gutterBottom variant="h5" component="div">
-          {property.name}
+          {property.name.length > 20 ? `${property.name.substring(0, 20)}...` : property.name}
         </Typography>
         <Typography variant="body2" color="text.secondary">
-          {property.description.substring(0, 120)}...
+          {descriptionText}...
         </Typography>
       </CardContent>
-      <CardActions>
+      <CardActions >
         <Button size="small">Share</Button>
         <Link to={`/property/${property._id}`}>
           <Button size="small">Learn More</Button>
