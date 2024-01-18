@@ -4,12 +4,14 @@ import { Box } from '@mui/material';
 import Typography from '@mui/material/Typography';
 import './LoginForm.css';
 import { UserContext } from './UserContext';
+import PopUpSnackbar from './PopUpSnackbar';
 
 function LoginForm() {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
     const navigate = useNavigate();
-    const { user, setUser } = useContext(UserContext);
+    const { setUser, showSnackbar } = useContext(UserContext);
+
 
     const handleLogin = async (event) => {
         event.preventDefault();
@@ -25,11 +27,13 @@ function LoginForm() {
             });
 
             if (response.ok) {
-                setUser({});
+                setUser(username);
+                showSnackbar('Login Successful!');
                 navigate('/dashboard');
             } else {
                 // Handle login failure
-                alert('Login failed');
+                showSnackbar('Login failed');
+                setSnackbarOpen(true);
             }
         } catch (error) {
             // Handle error

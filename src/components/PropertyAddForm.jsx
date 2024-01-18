@@ -6,6 +6,9 @@ import Button from '@mui/material/Button';
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import SelectInput from "./SelectInput";
+import ReactQuill from 'react-quill';
+import 'react-quill/dist/quill.snow.css';
+import "./PropertyAddForm.css";
 
 // const propertyTypeOptions = [
 //     { type: "Type", value: "Residential", label: "Residential" },
@@ -17,7 +20,7 @@ import SelectInput from "./SelectInput";
 
 const rentOrSaleOptions = [
     { type: "Rental or Sale", value: "rental", label: "Rental" },
-    { type: "Rental or Sale", value: "sale", label: "Sale"},
+    { type: "Rental or Sale", value: "sale", label: "Sale" },
 ]
 
 
@@ -227,17 +230,23 @@ export default function PropertyAddForm() {
                         />
                     </Grid>
                     <Grid item xs={11} md={8} lg={8}>
-                        <TextArea
+                        {/* <TextArea
                             name="description"
                             value={form.description}
                             onChange={handleChange}
                             className="form-input"
                             labelText="Description"
+                        /> */}
+                        <ReactQuill
+                            name="description"
+                            value={form.description}
+                            onChange={value => setForm({ ...form, description: value })}
+                            className="text-area-input"
                         />
                     </Grid>
                     <Grid item xs={1} md={4} lg={4}></Grid>
                     <Grid item xs={11} md={8} lg={6}>
-                        <ImageUploader setPublicIds={setPublicIds} setLoading={setLoading} publicIds={publicIds}/>
+                        <ImageUploader setPublicIds={setPublicIds} setLoading={setLoading} publicIds={publicIds} />
                     </Grid>
                     <Grid item xs={1} md={4} lg={6}></Grid>
                     <Grid item xs={3} md={2} lg={2}>

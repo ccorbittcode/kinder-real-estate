@@ -3,7 +3,7 @@ import Footer from "./Footer"
 import { Outlet } from "react-router-dom"
 import Box from '@mui/material/Box';
 import { useState, useEffect } from "react";
-import { UserContext } from "./UserContext";
+import { UserProvider } from "./UserContext";
 
 export default function Layout() {
     const [user, setUser] = useState(null);
@@ -15,7 +15,7 @@ export default function Layout() {
                 if (response.ok) {
                     const data = await response.json();
                     if (data.isAuthenticated) {
-                        setUser({});
+                        setUser(user.username);
                     } else {
                         setUser(null);
                     }
@@ -40,9 +40,9 @@ export default function Layout() {
         }}
         >
             <Navbar user={user} setUser={setUser} />
-            <UserContext.Provider value={{ user, setUser }}>
+            <UserProvider>
                 <Outlet className="outlet" />
-            </UserContext.Provider>
+            </UserProvider>
             <Footer />
         </Box>
     )

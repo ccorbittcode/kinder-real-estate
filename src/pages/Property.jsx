@@ -7,6 +7,7 @@ import { useParams } from 'react-router-dom';
 import './Property.css';
 import ImageCarousel from '../components/ImageCarousel';
 import ContactForm from '../components/ContactForm';
+import DOMPurify from 'dompurify';
 
 
 export default function Property() {
@@ -93,7 +94,7 @@ export default function Property() {
                             }}
                         >
                             <h3>Description</h3>
-                            <p>{property.description}</p>
+                            <div dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(property.description) }} />
 
                         </Box>
                     </Grid>
