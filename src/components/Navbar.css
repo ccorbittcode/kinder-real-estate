@@ -17,3 +17,9 @@
     text-decoration: none;
     color: #000;
 }
+
+.active {
+    border-bottom: 10px solid slategrey;
+    border-radius: 5px;
+    padding-bottom: 17px;
+}

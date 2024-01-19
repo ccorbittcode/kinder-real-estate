@@ -15,9 +15,11 @@ import * as React from 'react';
 import { createTheme } from '@mui/material/styles';
 import { ThemeProvider } from '@mui/material';
 import './Navbar.css';
-import { Link } from 'react-router-dom';
+import { NavLink, Link } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
 import { useState } from 'react';
+import { UserContext } from './UserContext';
+import { useContext } from 'react';
 
 const theme = createTheme({
   palette: {
@@ -47,10 +49,11 @@ const settings = [
   { name: 'Register New Realtor', path: '/signup' },
 ]
 
-export default function Navbar({user, setUser}) {
+export default function Navbar() {
   const [anchorElNav, setAnchorElNav] = useState(null);
   const [anchorElUser, setAnchorElUser] = useState(null);
   const navigate = useNavigate();
+  const { user, setUser, showSnackbar } = useContext(UserContext);
 
 
   const handleOpenNavMenu = (event) => {
@@ -75,7 +78,7 @@ export default function Navbar({user, setUser}) {
     if (response.ok) {
       // If the logout was successful, redirect to the home page
       setUser(null);
-      console.log('Logout successful');
+      showSnackbar('Logout successful');
       navigate('/');
     } else {
       // Handle any errors
@@ -174,9 +177,9 @@ export default function Navbar({user, setUser}) {
                   onClick={handleCloseNavMenu}
                   sx={{ my: 2, color: 'white', display: 'block' }}
                 >
-                  <Link to={page.path} className="navbarlink">
+                  <NavLink to={page.path} className="navbarlink" activeClassName='active' exact>
                     {page.name}
-                  </Link>
+                  </NavLink>
                 </Button>
               ))}
             </Box>

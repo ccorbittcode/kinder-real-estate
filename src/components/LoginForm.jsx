@@ -4,7 +4,6 @@ import { Box } from '@mui/material';
 import Typography from '@mui/material/Typography';
 import './LoginForm.css';
 import { UserContext } from './UserContext';
-import PopUpSnackbar from './PopUpSnackbar';
 
 function LoginForm() {
     const [username, setUsername] = useState('');

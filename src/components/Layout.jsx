@@ -4,6 +4,7 @@ import { Outlet } from "react-router-dom"
 import Box from '@mui/material/Box';
 import { useState, useEffect } from "react";
 import { UserProvider } from "./UserContext";
+import { Container } from "@mui/material";
 
 export default function Layout() {
     const [user, setUser] = useState(null);
@@ -39,9 +40,11 @@ export default function Layout() {
             minHeight: '97.5vh'
         }}
         >
-            <Navbar user={user} setUser={setUser} />
-            <UserProvider>
-                <Outlet className="outlet" />
+            <UserProvider user={user} setUser={setUser}>
+                <Navbar />
+                <Container maxWidth={false} disableGutters>
+                    <Outlet className="outlet" />
+                </Container>
             </UserProvider>
             <Footer />
         </Box>
