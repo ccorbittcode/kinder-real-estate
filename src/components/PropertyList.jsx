@@ -35,8 +35,7 @@ export default function PropertyList() {
         <>
             <Box sx={{
                 flexGrow: 1,
-                p: 3,
-                backgroundImage: 'linear-gradient(#8ECAE6 , #24c5f3)'
+                p: 3
             }}
             >
                 <Grid container spacing={2}>

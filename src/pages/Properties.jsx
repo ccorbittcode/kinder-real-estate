@@ -8,7 +8,7 @@ import Divider from '@mui/material/Divider'
 export default function Properties() {
     return (
         <div className='properties-main'>
-            <Typography variant="h4" sx={{ m: 2, textAlign: "center" }}>
+            <Typography variant="h4" sx={{ m: 2, pt: 3, textAlign: "center" }}>
                 Current Listings
             </Typography>
            <PropertyList />

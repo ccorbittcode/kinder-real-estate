@@ -4,6 +4,7 @@ import Grid from '@mui/material/Grid';
 import { Typography } from '@mui/material';
 import { useState, useEffect } from 'react'
 import { useParams } from 'react-router-dom';
+import Divider from '@mui/material/Divider';
 import './Property.css';
 import ImageCarousel from '../components/ImageCarousel';
 import ContactForm from '../components/ContactForm';
@@ -31,11 +32,12 @@ export default function Property() {
     return (
         <div className="property-main">
             {property && (
-                <Grid container spacing="1" alignItems="flex-end">
+                <>
+                <h1 className="header">{property.name}</h1>
+                <h2 className="header">{property.price}</h2>
+                <Grid container spacing="40" alignItems="flex-end" sx={{ pt: 2 }}>
                     <Grid item xs={12} md={12} lg={8.3}>
                         <Box className="carousel-box">
-                            <h1 className="header">{property.name}</h1>
-                            <h2 className="header">{property.price}</h2>
                             <ImageCarousel property={property} />
                         </Box>
                     </Grid>
@@ -52,15 +54,15 @@ export default function Property() {
                                     borderRadius: 2,
                                     backgroundColor: "white",
                                     m: 1,
-                                    mb: 1,
+                                    mb: 2,
                                     mt: 1,
-                                    p: 2
+                                    p: 1
 
                                 }}
                             >
                                 <Grid container>
                                     <Grid item xs={12} md={12} lg={12} sx={{ textAlign: "center" }}>
-                                        <h3>Property Details</h3>
+                                        <h3 className="property-details-header">Property Details</h3>
                                     </Grid>
                                     <Grid item xs={6} md={6} lg={12}>
                                         <p><b>Property Type:</b> {property.propertyType}</p>
@@ -80,7 +82,8 @@ export default function Property() {
                             </Box>
                         </Grid>
                     </Grid>
-                    <Grid item xs={12} md={12} lg={12}>
+                    <Grid item xs={1} md={1} lg={1}></Grid>
+                    <Grid item xs={10} md={10} lg={10}>
                         <Box
                             className="description-box"
                             sx={{
@@ -98,8 +101,11 @@ export default function Property() {
 
                         </Box>
                     </Grid>
+                    <Grid item xs={1} md={1} lg={1}></Grid>
                 </Grid>
+                </>
             )}
+            <Divider variant="middle" sx={{ mb: 5 }} />
             <Box className="contact-container" sx={{ display: "flex", justifyContent: "center" }}>
                 <Box sx={{
                     className: "contactbox",

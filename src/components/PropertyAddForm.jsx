@@ -9,6 +9,8 @@ import SelectInput from "./SelectInput";
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
 import "./PropertyAddForm.css";
+import { UserContext } from './UserContext';
+import { useContext } from 'react';
 
 // const propertyTypeOptions = [
 //     { type: "Type", value: "Residential", label: "Residential" },
@@ -28,6 +30,8 @@ export default function PropertyAddForm() {
     const [loading, setLoading] = useState(false);
     //set publicIds for image upload
     const [publicIds, setPublicIds] = useState([]);
+    // using separate state for description because of quilljs
+    const [description, setDescription] = useState("");
     const [form, setForm] = useState({
         name: "",
         address: "",
@@ -42,9 +46,9 @@ export default function PropertyAddForm() {
         squareFeet: "",
         lotSize: "",
         yearBuilt: "",
-        description: "",
         images: publicIds,
     });
+    const { showSnackbar } = useContext(UserContext);
 
     const navigate = useNavigate();
     // These methods will update the state properties.
@@ -59,7 +63,6 @@ export default function PropertyAddForm() {
         setForm(form => ({ ...form, images: publicIds }));
     }, [publicIds]);
 
-    // This function will handle the submission.
     const handleSubmit = async (event) => {
         event.preventDefault();
         if (loading) {
@@ -68,6 +71,7 @@ export default function PropertyAddForm() {
         try {
             const formData = {
                 ...form,
+                description,
                 images: publicIds, // Use the current value of publicIds
             };
             const response = await fetch('http://localhost:5000/properties/add', {
@@ -94,10 +98,11 @@ export default function PropertyAddForm() {
                 squareFeet: "",
                 lotSize: "",
                 yearBuilt: "",
-                description: "",
                 images: publicIds,
             });
             setPublicIds([]);
+            setDescription("");
+            showSnackbar('Property added successfully!');
             navigate("/dashboard");
         } catch (error) {
             window.alert(error);
@@ -230,17 +235,10 @@ export default function PropertyAddForm() {
                         />
                     </Grid>
                     <Grid item xs={11} md={8} lg={8}>
-                        {/* <TextArea
-                            name="description"
-                            value={form.description}
-                            onChange={handleChange}
-                            className="form-input"
-                            labelText="Description"
-                        /> */}
                         <ReactQuill
                             name="description"
-                            value={form.description}
-                            onChange={value => setForm({ ...form, description: value })}
+                            value={description}
+                            onChange={setDescription}
                             className="text-area-input"
                         />
                     </Grid>
