@@ -3,6 +3,7 @@ import ProtectedRoute from './components/ProtectedRoute'
 import Home from './pages/Home'
 import Properties from './pages/Properties'
 import Property from './pages/Property'
+import Edit from './pages/Edit'
 import Contact from './pages/Contact'
 import About from './pages/About'
 import Dashboard from './pages/Dashboard'
@@ -33,6 +34,10 @@ const router = createBrowserRouter([
       {
         path: "/property/:id",
         element: <Property />,
+      },
+      {
+        path: "/property/:id/edit",
+        element: <ProtectedRoute><Edit /></ProtectedRoute>,
       },
       {
         path: "/contact",

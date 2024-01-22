@@ -15,14 +15,13 @@ export default function CloudinaryUploadWidget( {setPublicIds, setLoading, publi
             if (result.event === "success") {
                 setPublicIds(prevPublicIds => {
                    const newPublicIds = [...prevPublicIds, result.info.public_id];
-                   console.log(newPublicIds);
                    return newPublicIds;
                 });
                 setLoading(false);
             }
-            // else {
-            //     console.log(error);
-            // }
+            else {
+                console.log(error);
+            }
         });
     }, []);
     return (

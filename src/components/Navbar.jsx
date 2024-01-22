@@ -55,7 +55,6 @@ export default function Navbar() {
   const navigate = useNavigate();
   const { user, setUser, showSnackbar } = useContext(UserContext);
 
-
   const handleOpenNavMenu = (event) => {
     setAnchorElNav(event.currentTarget);
   };
@@ -70,6 +69,18 @@ export default function Navbar() {
   const handleCloseUserMenu = () => {
     setAnchorElUser(null);
   };
+
+  const handleNavClick = (path) => {
+    handleCloseNavMenu();
+    navigate(path);
+    window.scrollTo(0, 0);
+  }
+
+  const handleUserClick = (path) => {
+    handleCloseUserMenu();
+    navigate(path);
+    window.scrollTo(0, 0);
+  }
 
   const handleLogout = async () => {
     // Make a GET request to the logout route
@@ -140,7 +151,7 @@ export default function Navbar() {
                 }}
               >
                 {pages.map((page) => (
-                  <MenuItem key={page.name} onClick={handleCloseNavMenu}>
+                  <MenuItem key={page.name} onClick={() => handleNavClick(page.path)}>
                     <Typography textAlign="center">
                       <Link to={page.path} className='navbarmenulink'>
                         {page.name}
@@ -174,7 +185,7 @@ export default function Navbar() {
               {pages.map((page) => (
                 <Button
                   key={page.name}
-                  onClick={handleCloseNavMenu}
+                  onClick={() => handleNavClick(page.path)}
                   sx={{ my: 2, color: 'white', display: 'block' }}
                 >
                   <NavLink to={page.path} className="navbarlink" activeClassName='active' exact>
@@ -210,7 +221,7 @@ export default function Navbar() {
                   user && (
                     <MenuItem
                       key={setting.name}
-                      onClick={handleCloseUserMenu}
+                      onClick={() => handleUserClick(setting.path)}
                     >
                       <Typography textAlign="center">
                         <Link to={setting.path} className='navbarmenulink'>
@@ -223,7 +234,7 @@ export default function Navbar() {
                 {!user && (
                   <MenuItem
                     key='login'
-                    onClick={handleCloseUserMenu}
+                    onClick={() => handleUserClick('/login')}
                   >
                     <Typography textAlign="center">
                       <Link to='/login' className='navbarmenulink'>

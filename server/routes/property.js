@@ -6,7 +6,14 @@ import dotenv from 'dotenv';
 
 dotenv.config();
 
-//error handling middleware
+import cloudinary from 'cloudinary';
+
+// Configure Cloudinary
+cloudinary.v2.config({
+  cloud_name: process.env.VITE_CLOUDINARY_CLOUD_NAME,
+  api_key: process.env.VITE_CLOUDINARY_API_KEY,
+  api_secret: process.env.VITE_CLOUDINARY_API_SECRET,
+});
 
 
 // The router will be added as a middleware and will take control of requests starting with path /record.
@@ -189,41 +196,54 @@ propertyRoutes.route("/properties/add").post(async function (req, response) {
 });
 
 // This section updates a property by id.
-propertyRoutes.route("/update/:id").post(async function (req, response) {
-    let db_connect = await getDb();
-    let myquery = { _id: ObjectId(req.params.id) };
-    let newvalues = {
-        $set: {
-            name: req.body.name,
-            address: req.body.address,
-            city: req.body.city,
-            state: req.body.state,
-            postalCode: req.body.postalCode,
-            propertyType: req.body.propertyType,
-            rentOrSale: req.body.rentOrSale,
-            price: req.body.price,
-            bedrooms: req.body.bedrooms,
-            bathrooms: req.body.bathrooms,
-            squareFeet: req.body.squareFeet,
-            lotSize: req.body.lotSize,
-            yearBuilt: req.body.yearBuilt,
-            description: req.body.description,
-            images: req.body.images,
-        },
-    };
-    db_connect
-        .collection("properties")
-        .updateOne(myquery, newvalues, function (err, res) {
-            if (err) throw err;
-            console.log("1 listing updated");
-            response.json(res);
-        });
+propertyRoutes.route("/property/:id").put(async function (req, response) {
+    try {
+        let db_connect = await getDb();
+        let myquery = { _id: new ObjectId(req.params.id) };
+        let newvalues = {
+            $set: {
+                name: req.body.name,
+                address: req.body.address,
+                city: req.body.city,
+                state: req.body.state,
+                postalCode: req.body.postalCode,
+                propertyType: req.body.propertyType,
+                rentOrSale: req.body.rentOrSale,
+                price: req.body.price,
+                bedrooms: req.body.bedrooms,
+                bathrooms: req.body.bathrooms,
+                squareFeet: req.body.squareFeet,
+                lotSize: req.body.lotSize,
+                yearBuilt: req.body.yearBuilt,
+                description: req.body.description,
+                images: req.body.images,
+            },
+        };
+        let res = await db_connect.collection("properties").updateOne(myquery, newvalues);
+        console.log("1 listing updated");
+        response.json(res);
+    } catch (err) {
+        console.error(err);
+        response.status(500).send(err);
+    }
 });
 
+// Delete image route
+propertyRoutes.route("/delete-image/:publicId").delete(asyncHandler(async function (req, res) {
+    try {
+        let result = await cloudinary.v2.uploader.destroy(req.params.publicId);
+        console.log(result);
+        res.json(result);
+    } catch (err) {
+        console.error(err);
+        res.status(500).send(err);
+    }
+}));
+
 // This section deletes a property
-propertyRoutes.route("/:id").delete((req, response) => {
+propertyRoutes.route("/property/:id").delete((req, response) => {
     let db_connect = getDb();
-    let myquery = { _id: ObjectId(req.params.id) };
+    let myquery = { _id: new ObjectId(req.params.id) };
     db_connect.collection("properties").deleteOne(myquery, function (err, obj) {
         if (err) throw err;
         console.log("1 listing deleted");

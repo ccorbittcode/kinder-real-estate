@@ -5,7 +5,7 @@ import './Contact.css'
 
 export default function Contact() {
     return (
-        <Box sx={{mt:15}}>
+        <Box sx={{mt:6}}>
             <h1>Contact Us</h1>
             <p>Let's get in touch about your property needs.</p>
             <ContactForm />
