@@ -1,9 +1,9 @@
 import React, { useState } from "react";
 import { Box } from "@mui/material";
-import Typography from "@mui/material/Typography";
 import { useContext } from "react";
 import { UserContext } from "../components/UserContext";
 import { useNavigate } from "react-router-dom";
+import "./ChangePassword.css";
 
 export default function ChangePassword() {
     const [currentPassword, setCurrentPassword] = useState('');
@@ -49,7 +49,7 @@ export default function ChangePassword() {
 
     return (
         <Box sx={{
-            m: 10,
+            m: 5,
             display: "flex",
             alignItems: "center",
             justifyContent: "center",
@@ -63,9 +63,6 @@ export default function ChangePassword() {
                     maxWidth: "500px"
                 }}
                 >
-                    <Typography variant="h4" sx={{ m: 2 }}>
-                        Change Password
-                    </Typography>
                     <input type={showPassword ? "text" : "password"} value={currentPassword} onChange={(e) => setCurrentPassword(e.target.value)} placeholder="Old Password" required />
                     <input type={showPassword ? "text" : "password"} value={newPassword} onChange={(e) => setNewPassword(e.target.value)} placeholder="New Password" required />
                     <input type={showPassword ? "text" : "password"} value={confirmNewPassword} onChange={(e) => setConfirmNewPassword(e.target.value)} placeholder="Confirm New Password" required />

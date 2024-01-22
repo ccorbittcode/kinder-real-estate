@@ -6,9 +6,13 @@ import CardMedia from '@mui/material/CardMedia';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import { Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { Box } from '@mui/material';
 
 function stripHTML(html) {
+  if (!html) {
+    return "";
+  }
   var text = html.replace(/<br>/g, ' ').replace(/<\/?p>/g, ' ');
   var doc = new DOMParser().parseFromString(text, 'text/html');
   return doc.body.textContent || "";
@@ -16,9 +20,20 @@ function stripHTML(html) {
 
 export default function PropertyCard({ property }) {
   const descriptionText = stripHTML(property.description).substring(0, 120);
-
+  const navigate = useNavigate();
+  const handleClick = () => {
+    navigate(`/property/${property._id}`);
+    window.scrollTo(0, 0);
+  }
   return (
-    <Card sx={{ maxWidth: 345, display: "flex", flexDirection: "column" }}>
+    <Card
+      onClick={handleClick}
+      sx={{
+        maxWidth: 345,
+        display: "flex",
+        flexDirection: "column"
+      }}
+    >
       <CardMedia
         component="img"
         alt="Property Image"
@@ -34,9 +49,8 @@ export default function PropertyCard({ property }) {
         </Typography>
       </CardContent>
       <CardActions >
-        <Button size="small">Share</Button>
         <Link to={`/property/${property._id}`}>
-          <Button size="small">Learn More</Button>
+          <Button size="small">Details</Button>
         </Link>
       </CardActions>
     </Card>

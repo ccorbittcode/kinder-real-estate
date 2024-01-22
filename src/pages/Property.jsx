@@ -9,10 +9,15 @@ import './Property.css';
 import ImageCarousel from '../components/ImageCarousel';
 import ContactForm from '../components/ContactForm';
 import DOMPurify from 'dompurify';
+import { Link } from 'react-router-dom';
+import { UserContext } from '../components/UserContext';
+import { useContext } from 'react';
+import Button from '@mui/material/Button';
 
 
 export default function Property() {
     const [property, setProperty] = useState(null);
+    const { user } = useContext(UserContext);
     const { id } = useParams();
     // This method fetches the records from the database.
     useEffect(() => {
@@ -33,76 +38,85 @@ export default function Property() {
         <div className="property-main">
             {property && (
                 <>
-                <h1 className="header">{property.name}</h1>
-                <h2 className="header">{property.price}</h2>
-                <Grid container spacing="40" alignItems="flex-end" sx={{ pt: 2 }}>
-                    <Grid item xs={12} md={12} lg={8.3}>
-                        <Box className="carousel-box">
-                            <ImageCarousel property={property} />
+                    <h1 className="header">{property.name}</h1>
+                    <h2 className="header">{property.price}</h2>
+                    {user &&
+                        <Box sx={{display: "flex", alignItems: "center", justifyContent: "center"}}>
+                            <Link to={`/property/${id}/edit`}>
+                                <Button variant="contained" sx={{ m: 2 }}>
+                                    Edit Property Details
+                                </Button>
+                            </Link>
                         </Box>
-                    </Grid>
-                    <Grid item xs={12} md={12} lg={3.5}>
-                        <Grid
-                            container
-                            justifyContent="center"
-                            className="property-details-grid"
-                        >
+                    }
+                    <Grid container spacing="40" alignItems="flex-end" sx={{ pt: 2 }}>
+                        <Grid item xs={12} md={12} lg={8.3}>
+                            <Box className="carousel-box">
+                                <ImageCarousel property={property} />
+                            </Box>
+                        </Grid>
+                        <Grid item xs={12} md={12} lg={3.5}>
+                            <Grid
+                                container
+                                justifyContent="center"
+                                className="property-details-grid"
+                            >
+                                <Box
+                                    className="property-details-box"
+                                    sx={{
+                                        border: "1px solid black",
+                                        borderRadius: 2,
+                                        backgroundColor: "white",
+                                        m: 1,
+                                        mb: 2,
+                                        mt: 1,
+                                        p: 1
+
+                                    }}
+                                >
+                                    <Grid container>
+                                        <Grid item xs={12} md={12} lg={12} sx={{ textAlign: "center" }}>
+                                            <h3 className="property-details-header">Property Details</h3>
+                                        </Grid>
+                                        <Grid item xs={6} md={6} lg={12}>
+                                            <p><b>Property Type:</b> {property.propertyType}</p>
+                                            <p><b>Address:</b> {property.address}</p>
+                                            <p><b>City:</b> {property.city}</p>
+                                            <p><b>State:</b> {property.state} </p>
+                                            <p><b>Postal Code:</b> {property.postalCode}</p>
+                                        </Grid>
+                                        <Grid item xs={6} md={6} lg={12}>
+                                            <p><b>Bedrooms:</b> {property.bedrooms}</p>
+                                            <p><b>Bathrooms:</b> {property.bathrooms}</p>
+                                            <p><b>House Size:</b> {property.squareFeet}</p>
+                                            <p><b>Lot Size:</b> {property.lotSize}</p>
+                                            <p><b>Year Built:</b> {property.yearBuilt}</p>
+                                        </Grid>
+                                    </Grid>
+                                </Box>
+                            </Grid>
+                        </Grid>
+                        <Grid item xs={1} md={1} lg={1}></Grid>
+                        <Grid item xs={10} md={10} lg={10}>
                             <Box
-                                className="property-details-box"
+                                className="description-box"
                                 sx={{
                                     border: "1px solid black",
                                     borderRadius: 2,
                                     backgroundColor: "white",
-                                    m: 1,
-                                    mb: 2,
+                                    m: 5,
+                                    mb: 11,
                                     mt: 1,
-                                    p: 1
-
+                                    p: 2,
                                 }}
                             >
-                                <Grid container>
-                                    <Grid item xs={12} md={12} lg={12} sx={{ textAlign: "center" }}>
-                                        <h3 className="property-details-header">Property Details</h3>
-                                    </Grid>
-                                    <Grid item xs={6} md={6} lg={12}>
-                                        <p><b>Property Type:</b> {property.propertyType}</p>
-                                        <p><b>Address:</b> {property.address}</p>
-                                        <p><b>City:</b> {property.city}</p>
-                                        <p><b>State:</b> {property.state} </p>
-                                        <p><b>Postal Code:</b> {property.postalCode}</p>
-                                    </Grid>
-                                    <Grid item xs={6} md={6} lg={12}>
-                                        <p><b>Bedrooms:</b> {property.bedrooms}</p>
-                                        <p><b>Bathrooms:</b> {property.bathrooms}</p>
-                                        <p><b>House Size:</b> {property.squareFeet}</p>
-                                        <p><b>Lot Size:</b> {property.lotSize}</p>
-                                        <p><b>Year Built:</b> {property.yearBuilt}</p>
-                                    </Grid>
-                                </Grid>
+                                <h3>Description</h3>
+                                <div dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(property.description) }} />
+
                             </Box>
                         </Grid>
+                        <Grid item xs={1} md={1} lg={1}></Grid>
                     </Grid>
-                    <Grid item xs={1} md={1} lg={1}></Grid>
-                    <Grid item xs={10} md={10} lg={10}>
-                        <Box
-                            className="description-box"
-                            sx={{
-                                border: "1px solid black",
-                                borderRadius: 2,
-                                backgroundColor: "white",
-                                m: 5,
-                                mb: 11,
-                                mt: 1,
-                                p: 2,
-                            }}
-                        >
-                            <h3>Description</h3>
-                            <div dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(property.description) }} />
-
-                        </Box>
-                    </Grid>
-                    <Grid item xs={1} md={1} lg={1}></Grid>
-                </Grid>
                 </>
             )}
             <Divider variant="middle" sx={{ mb: 5 }} />
