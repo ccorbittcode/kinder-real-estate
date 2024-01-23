@@ -14,7 +14,7 @@
 
 @media only screen and (max-width: 700px) {
     .homeheader {
-        top: 21%;
+        top: 19%;
         width: 80%;
     }
     .contactbox {
@@ -29,7 +29,7 @@
 
 @media only screen and (min-width: 701px) and (max-width: 999px) {
     .homeheader {
-        top: 22%;
+        top: 20%;
         width: 80%;
     }
     .contactbox {
@@ -40,7 +40,7 @@
 
 @media only screen and (min-width: 1000px) and (max-width: 1199px) {
     .homeheader {
-        top: 31%;
+        top: 24%;
         width: 50%;
     }
     .input-column {
@@ -53,7 +53,7 @@
 
 @media only screen and (min-width: 1200px) {
     .homeheader {
-        top: 31%;
+        top: 25%;
         width: 50%;
     }
     .input-column {

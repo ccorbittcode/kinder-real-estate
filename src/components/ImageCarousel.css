@@ -7,6 +7,10 @@
     height: 20px;
 }
 
+.carousel-div {
+    max-width: 800px;
+}
+
 @media only screen and (max-width: 700px) {
     .image-carousel-main {
         width: 100%;

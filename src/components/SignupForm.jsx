@@ -6,9 +6,16 @@ import './SignupForm.css';
 function SignupForm() {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
+    const [confirmPassword, setConfirmPassword] = useState('');
+    const [showPassword, setShowPassword] = useState(false);
 
     const handleSubmit = async (event) => {
         event.preventDefault();
+
+        if (password !== confirmPassword) {
+            alert('New passwords do not match');
+            return;
+        }
 
         try {
             const response = await fetch('http://localhost:5000/signup', {
@@ -33,20 +40,25 @@ function SignupForm() {
     };
 
     return (
-        <Box sx={{ m: 10 }}>
+        <Box sx={{
+            m: 5,
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+        }}
+        >
             <form onSubmit={handleSubmit}>
                 <Box className="signup-box" sx={{
-                    m: 10,
                     display: "flex",
                     flexDirection: "column",
                     alignItems: "center",
+                    maxWidth: "500px"
                 }}
                 >
-                    <Typography variant="h4" sx={{ m: 2 }}>
-                        Register a new Realtor
-                    </Typography>
                     <input type="text" value={username} onChange={(e) => setUsername(e.target.value)} placeholder="Username" required />
-                    <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} placeholder="Password" required />
+                    <input type={showPassword ? "text" : "password"} value={password} onChange={(e) => setPassword(e.target.value)} placeholder="Password" required />
+                    <input type={showPassword ? "text" : "password"} value={confirmPassword} onChange={(e) => setConfirmPassword(e.target.value)} placeholder="Confirm Password" required />
+                    <button type="button" onClick={() => setShowPassword(!showPassword)}>{showPassword ? "Hide Passwords" : "Show Passwords"}</button>
                     <button type="submit">Sign Up</button>
                 </Box>
             </form>

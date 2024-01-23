@@ -5,7 +5,7 @@ import { AdvancedImage, responsive, placeholder } from "@cloudinary/react";
 import "./ImageUploader.css";
 
 
-export default function ImageUploader({ setPublicIds, setLoading, publicIds }) {
+export default function ImageUploader({ setPublicIds, setLoading, publicIds, propertyId}) {
     const [cloudName] = useState(import.meta.env.VITE_CLOUDINARY_CLOUD_NAME);
     const [uploadPreset] = useState(import.meta.env.VITE_CLOUDINARY_UPLOAD_PRESET);
 
@@ -31,14 +31,41 @@ export default function ImageUploader({ setPublicIds, setLoading, publicIds }) {
 
     const handleDelete = async (id) => {
         // Call your server-side code to delete the image from Cloudinary
+        console.log('Deleting image with ID:', id); // Log the ID
+
         try {
             const response = await fetch(`http://localhost:5000/delete-image/${id}`, { method: 'DELETE' });
             if (!response.ok) {
                 throw new Error(`HTTP error! status: ${response.status}`);
             }
             const data = await response.json();
-            if (data.success) {
-                setPublicIds((prevIds) => prevIds.filter((prevId) => prevId !== id));
+            console.log('Fetch response:', data); // Log the fetch response
+
+            if (data.result === 'ok') {
+                setPublicIds((prevIds) => {
+                    const updatedIds = prevIds.filter((prevId) => prevId !== id);
+                    console.log('updatedIds', updatedIds); // Log the updated state
+
+                    // Call your server-side code to update the MongoDB document
+                    fetch(`http://localhost:5000/property/${propertyId}/images`, {
+                        method: 'PUT',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify({ images: updatedIds }),
+                    })
+                        .then(response => response.json())
+                        .then(data => {
+                            if (data.modifiedCount > 0) {
+                                console.log('MongoDB document updated successfully');
+                            } else {
+                                console.error('Failed to update MongoDB document:', data);
+                            }
+                        })
+                        .catch(error => console.error('Fetch error:', error));
+
+                    return updatedIds;
+                });
             } else {
                 console.error(data);
             }
@@ -54,6 +81,7 @@ export default function ImageUploader({ setPublicIds, setLoading, publicIds }) {
 
     return (
         <div className="image-uploader">
+            {console.log('rerender')}
             <h3>Add Property Images</h3>
             <CloudinaryUploadWidget
                 uwConfig={uwConfig}

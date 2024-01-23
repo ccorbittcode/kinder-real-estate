@@ -1,6 +1,5 @@
 import TextInput from "./TextInput";
 import { Box, Grid } from "@mui/material";
-import TextArea from "./TextArea";
 import ImageUploader from "./ImageUploader";
 import Button from '@mui/material/Button';
 import React, { useState, useEffect } from "react";
@@ -258,7 +257,7 @@ export default function PropertyEditForm() {
                     </Grid>
                     <Grid item xs={1} md={4} lg={4}></Grid>
                     <Grid item xs={11} md={8} lg={6}>
-                        <ImageUploader setPublicIds={setPublicIds} setLoading={setLoading} publicIds={publicIds} />
+                        <ImageUploader setPublicIds={setPublicIds} setLoading={setLoading} publicIds={publicIds} propertyId={id} />
                     </Grid>
                     <Grid item xs={1} md={4} lg={6}></Grid>
                     <Grid item xs={3} md={2} lg={2}>
