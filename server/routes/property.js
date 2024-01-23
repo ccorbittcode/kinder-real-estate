@@ -1,18 +1,19 @@
-import express from "express";
-import passport from "passport";
-import { Strategy as LocalStrategy } from "passport-local";
-import bcrypt from "bcrypt";
+import { v2 as cloudinary } from 'cloudinary';
 import dotenv from 'dotenv';
 
 dotenv.config();
 
-import cloudinary from 'cloudinary';
+import express from "express";
+import passport from "passport";
+import { Strategy as LocalStrategy } from "passport-local";
+import bcrypt from "bcrypt";
+
 
 // Configure Cloudinary
-cloudinary.v2.config({
-  cloud_name: process.env.VITE_CLOUDINARY_CLOUD_NAME,
-  api_key: process.env.VITE_CLOUDINARY_API_KEY,
-  api_secret: process.env.VITE_CLOUDINARY_API_SECRET,
+cloudinary.config({
+    cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
+    api_key: process.env.CLOUDINARY_API_KEY,
+    api_secret: process.env.CLOUDINARY_API_SECRET,
 });
 
 
@@ -27,12 +28,12 @@ import { ObjectId } from "mongodb";
 
 // Define the asyncHandler function
 function asyncHandler(fn) {
-    return function(req, res, next) {
-      return Promise
-        .resolve(fn(req, res, next))
-        .catch(next);
+    return function (req, res, next) {
+        return Promise
+            .resolve(fn(req, res, next))
+            .catch(next);
     }
-  }
+}
 
 // Passport.js setup
 passport.use(new LocalStrategy(
@@ -87,7 +88,7 @@ propertyRoutes.route("/signup").post(async function (req, res) {
 // Login route
 
 propertyRoutes.route("/login").post(function (req, res, next) {
-    passport.authenticate('local', function(err, user, info) {
+    passport.authenticate('local', function (err, user, info) {
         if (err) {
             return next(err);
         }
@@ -95,7 +96,7 @@ propertyRoutes.route("/login").post(function (req, res, next) {
             // Authentication failed
             return res.status(401).json({ message: 'Authentication failed' });
         }
-        req.logIn(user, function(err) {
+        req.logIn(user, function (err) {
             if (err) {
                 return next(err);
             }
@@ -108,7 +109,7 @@ propertyRoutes.route("/login").post(function (req, res, next) {
 // Logout route
 propertyRoutes.route("/logout").get(asyncHandler(async function (req, res) {
     await req.logout(err => {
-        if (err) {return next(err);}
+        if (err) { return next(err); }
     });
     await res.clearCookie('connect.sid');
     // Send a response indicating that the logout was successful
@@ -228,10 +229,33 @@ propertyRoutes.route("/property/:id").put(async function (req, response) {
     }
 });
 
-// Delete image route
-propertyRoutes.route("/delete-image/:publicId").delete(asyncHandler(async function (req, res) {
+// This section updates the images of a property by id.
+propertyRoutes.route("/property/:id/images").put(async function (req, response) {
     try {
-        let result = await cloudinary.v2.uploader.destroy(req.params.publicId);
+        let db_connect = await getDb();
+        let myquery = { _id: new ObjectId(req.params.id) };
+        let newvalues = {
+            $set: {
+                images: req.body.images,
+            },
+        };
+        let res = await db_connect.collection("properties").updateOne(myquery, newvalues);
+        console.log("Images of 1 listing updated");
+        response.json(res);
+    } catch (err) {
+        console.error(err);
+        response.status(500).send(err);
+    }
+});
+
+// Delete image route
+propertyRoutes.route("/delete-image/:library/:publicId").delete(asyncHandler(async function (req, res) {
+    try {
+        let result = await cloudinary.uploader.destroy(`${req.params.library}/${req.params.publicId}`, {
+            api_key: process.env.CLOUDINARY_API_KEY,
+            api_secret: process.env.CLOUDINARY_API_SECRET,
+            cloud_name: process.env.CLOUDINARY_CLOUD_NAME
+        });
         console.log(result);
         res.json(result);
     } catch (err) {
@@ -241,14 +265,17 @@ propertyRoutes.route("/delete-image/:publicId").delete(asyncHandler(async functi
 }));
 
 // This section deletes a property
-propertyRoutes.route("/property/:id").delete((req, response) => {
-    let db_connect = getDb();
+propertyRoutes.route("/property/:id").delete(async (req, response) => {
+    let db_connect = await getDb();
     let myquery = { _id: new ObjectId(req.params.id) };
-    db_connect.collection("properties").deleteOne(myquery, function (err, obj) {
-        if (err) throw err;
+    try {
+        let obj = await db_connect.collection("properties").deleteOne(myquery);
         console.log("1 listing deleted");
         response.json(obj);
-    });
+    } catch (err) {
+        console.error(err);
+        response.status(500).send(err);
+    }
 });
 
 // This section searches properties based on multiple search parameters.

@@ -116,7 +116,7 @@ export default function Navbar() {
                 color: 'inherit',
               }}
             >
-              <Link to="/" className="homelink">
+              <Link to="/" className="homelink" onClick={() => window.scrollTo(0, 0)}>
                 KINDER REALTY
               </Link>
             </Typography>
@@ -177,7 +177,7 @@ export default function Navbar() {
                 textDecoration: 'none',
               }}
             >
-              <Link to="/" className="homelink">
+              <Link to="/" className="homelink" onClick={() => window.scrollTo(0, 0)}>
                 KINDER REALTY
               </Link>
             </Typography>

@@ -13,10 +13,12 @@ import { Link } from 'react-router-dom';
 import { UserContext } from '../components/UserContext';
 import { useContext } from 'react';
 import Button from '@mui/material/Button';
+import { useNavigate } from 'react-router-dom';
 
 
 export default function Property() {
     const [property, setProperty] = useState(null);
+    const navigate = useNavigate();
     const { user } = useContext(UserContext);
     const { id } = useParams();
     // This method fetches the records from the database.
@@ -34,6 +36,18 @@ export default function Property() {
         getProperty();
     }, [id]);
 
+    const handleDelete = async () => {
+        if (window.confirm('Are you sure you want to delete this property?')) {
+            const response = await fetch(`http://localhost:5000/property/${id}`, { method: 'DELETE' });
+            if (!response.ok) {
+                const message = `An error occurred: ${response.statusText}`;
+                window.alert(message);
+                return;
+            }
+            navigate('/properties');
+        }
+    };
+
     return (
         <div className="property-main">
             {property && (
@@ -41,21 +55,24 @@ export default function Property() {
                     <h1 className="header">{property.name}</h1>
                     <h2 className="header">{property.price}</h2>
                     {user &&
-                        <Box sx={{display: "flex", alignItems: "center", justifyContent: "center"}}>
+                        <Box sx={{ display: "flex", alignItems: "center", justifyContent: "center" }}>
                             <Link to={`/property/${id}/edit`}>
                                 <Button variant="contained" sx={{ m: 2 }}>
                                     Edit Property Details
                                 </Button>
                             </Link>
+                            <Button variant="contained" color="error" onClick={handleDelete} sx={{ m: 2 }}>
+                                Delete Property
+                            </Button>
                         </Box>
                     }
-                    <Grid container spacing="40" alignItems="flex-end" sx={{ pt: 2 }}>
-                        <Grid item xs={12} md={12} lg={8.3}>
+                    <Grid container className="property-container" spacing="40" alignItems="flex-end" justifyContent="flex-start" sx={{ pt: 2 }}>
+                        <Grid item xs={12} md={12} lg={8}>
                             <Box className="carousel-box">
                                 <ImageCarousel property={property} />
                             </Box>
                         </Grid>
-                        <Grid item xs={12} md={12} lg={3.5}>
+                        <Grid item xs={12} md={12} lg={3}>
                             <Grid
                                 container
                                 justifyContent="center"
@@ -70,15 +87,13 @@ export default function Property() {
                                         m: 1,
                                         mb: 2,
                                         mt: 1,
-                                        p: 1
-
                                     }}
                                 >
                                     <Grid container>
                                         <Grid item xs={12} md={12} lg={12} sx={{ textAlign: "center" }}>
                                             <h3 className="property-details-header">Property Details</h3>
                                         </Grid>
-                                        <Grid item xs={6} md={6} lg={12}>
+                                        <Grid item xs={6} md={6} lg={12} >
                                             <p><b>Property Type:</b> {property.propertyType}</p>
                                             <p><b>Address:</b> {property.address}</p>
                                             <p><b>City:</b> {property.city}</p>
@@ -96,7 +111,7 @@ export default function Property() {
                                 </Box>
                             </Grid>
                         </Grid>
-                        <Grid item xs={1} md={1} lg={1}></Grid>
+                        <Grid item xs={1} md={1} lg={1.1}></Grid>
                         <Grid item xs={10} md={10} lg={10}>
                             <Box
                                 className="description-box"

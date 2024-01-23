@@ -9,6 +9,11 @@
     text-align: center;
 }
 
+.property-details-box p {
+    text-align: left;
+    padding-left: 40px;
+}
+
 h1 {
     padding-top: 40px;
 }
@@ -47,6 +52,13 @@ h1 {
     .contactbox {
         width: 40rem;
     }
+    .property-container {
+        align-items: center !important;
+    }
+    .carousel-box {
+        display: "flex";
+        justify-content: "center";
+    }
 
 }
 
@@ -57,6 +69,7 @@ h1 {
     .contactbox {
         width: 40rem;
     }
+
 }
 
 @media only screen and (min-width: 1200px) {
@@ -69,5 +82,8 @@ h1 {
     }
     .property-details-grid  {
         justify-content: flex-start !important;
+    }
+    .carousel-box {
+        margin-left: 18%
     }
 }
