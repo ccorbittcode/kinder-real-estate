@@ -13,7 +13,10 @@
     text-align: left;
     padding-left: 40px;
 }
-
+.carousel-box{
+    max-width: 1000px;
+    margin: auto;
+}
 h1 {
     padding-top: 40px;
 }
@@ -55,10 +58,6 @@ h1 {
     .property-container {
         align-items: center !important;
     }
-    .carousel-box {
-        display: "flex";
-        justify-content: "center";
-    }
 
 }
 
@@ -80,10 +79,5 @@ h1 {
         max-width: 100%;
         margin-bottom: 0px !important;
     }
-    .property-details-grid  {
-        justify-content: flex-start !important;
-    }
-    .carousel-box {
-        margin-left: 18%
-    }
+
 }

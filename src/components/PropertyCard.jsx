@@ -31,6 +31,7 @@ export default function PropertyCard({ property }) {
       onClick={handleClick}
       sx={{
         maxWidth: 345,
+        height: "100%",
         display: "flex",
         flexDirection: "column",
         cursor: "pointer"
@@ -51,7 +52,7 @@ export default function PropertyCard({ property }) {
         </Typography>
       </CardContent>
       <CardContent sx={{display: "flex", direction: "row", alignItems:"flex-end", justifyContent: "space-between"}}>
-        <Typography variant="h6" color="text.secondary">
+        <Typography variant="h6" color="green">
           {property.price}
         </Typography>
         <Typography variant="body2" color="text.secondary">
