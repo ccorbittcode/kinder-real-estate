@@ -66,13 +66,22 @@ export default function Property() {
                             </Button>
                         </Box>
                     }
-                    <Grid container className="property-container" spacing="40" alignItems="flex-end" justifyContent="flex-start" sx={{ pt: 2 }}>
-                        <Grid item xs={12} md={12} lg={8}>
+                    <Grid
+                        container
+                        className="property-container"
+                        spacing="21"
+                        alignItems="center"
+                        justifyContent="center"
+                        sx={{ pt: 2 }}
+                    >
+                        <Grid item xs={1} md={1} lg={1}></Grid>
+                        <Grid item xs={10} md={10} lg={10}>
                             <Box className="carousel-box">
                                 <ImageCarousel property={property} />
                             </Box>
                         </Grid>
-                        <Grid item xs={12} md={12} lg={3}>
+                        <Grid item xs={1} md={1} lg={1}></Grid>
+                        <Grid item xs={12} md={12} lg={12}>
                             <Grid
                                 container
                                 justifyContent="center"
@@ -93,14 +102,14 @@ export default function Property() {
                                         <Grid item xs={12} md={12} lg={12} sx={{ textAlign: "center" }}>
                                             <h3 className="property-details-header">Property Details</h3>
                                         </Grid>
-                                        <Grid item xs={6} md={6} lg={12} >
+                                        <Grid item xs={6} md={6} lg={6} >
                                             <p><b>Property Type:</b> {property.propertyType}</p>
                                             <p><b>Address:</b> {property.address}</p>
                                             <p><b>City:</b> {property.city}</p>
                                             <p><b>State:</b> {property.state} </p>
                                             <p><b>Postal Code:</b> {property.postalCode}</p>
                                         </Grid>
-                                        <Grid item xs={6} md={6} lg={12}>
+                                        <Grid item xs={6} md={6} lg={6}>
                                             <p><b>Bedrooms:</b> {property.bedrooms}</p>
                                             <p><b>Bathrooms:</b> {property.bathrooms}</p>
                                             <p><b>House Size:</b> {property.squareFeet}</p>
@@ -111,7 +120,7 @@ export default function Property() {
                                 </Box>
                             </Grid>
                         </Grid>
-                        <Grid item xs={1} md={1} lg={1.1}></Grid>
+                        <Grid item xs={1} md={1} lg={1}></Grid>
                         <Grid item xs={10} md={10} lg={10}>
                             <Box
                                 className="description-box"

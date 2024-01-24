@@ -30,7 +30,7 @@ function ImageCarousel({ property }) {
   return (
     <div className="carousel-div">
       <Box
-        sx={{ maxWidth: "800px", flexGrow: 1 }}
+        sx={{ maxWidth: "1000px", flexGrow: 1 }}
         className="image-carousel-main"
       >
         <SwipeableViews
@@ -47,11 +47,11 @@ function ImageCarousel({ property }) {
                   component="img"
                   sx={{
                     display: 'block',
-                    maxWidth: "800px",
+                    maxWidth: "1000px",
                     overflow: 'hidden',
-                    maxHeight: "510px",
+                    maxHeight: "637px",
                   }}
-                  src={`https://res.cloudinary.com/${import.meta.env.VITE_CLOUDINARY_CLOUD_NAME}/image/upload/c_fill,w_800,h_510/v1704205644/${step}.png`}
+                  src={`https://res.cloudinary.com/${import.meta.env.VITE_CLOUDINARY_CLOUD_NAME}/image/upload/c_fill,w_1000,h_637/v1704205644/${step}.png`}
                   alt={step}
                 />
               ) : null}

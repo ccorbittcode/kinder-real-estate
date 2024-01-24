@@ -90,6 +90,7 @@ export default function Navbar() {
       // If the logout was successful, redirect to the home page
       setUser(null);
       showSnackbar('Logout successful');
+      setAnchorElUser(null);
       navigate('/');
     } else {
       // Handle any errors
