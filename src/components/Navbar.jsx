@@ -84,7 +84,7 @@ export default function Navbar() {
 
   const handleLogout = async () => {
     // Make a GET request to the logout route
-    const response = await fetch('http://localhost:5000/logout', { credentials: 'include' });
+    const response = await fetch(`${import.meta.env.VITE_BASE_URL}/logout`, { credentials: 'include' });
 
     if (response.ok) {
       // If the logout was successful, redirect to the home page
@@ -239,7 +239,7 @@ export default function Navbar() {
                   >
                     <Typography textAlign="center">
                       <Link to='/login' className='navbarmenulink'>
-                        Login
+                        Realtor Login
                       </Link>
                     </Typography>
                   </MenuItem>

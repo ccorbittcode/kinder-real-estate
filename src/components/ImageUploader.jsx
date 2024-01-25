@@ -34,7 +34,7 @@ export default function ImageUploader({ setPublicIds, setLoading, publicIds, pro
         console.log('Deleting image with ID:', id); // Log the ID
 
         try {
-            const response = await fetch(`http://localhost:5000/delete-image/${id}`, { method: 'DELETE' });
+            const response = await fetch(`${import.meta.env.VITE_BASE_URL}/delete-image/${id}`, { method: 'DELETE' });
             if (!response.ok) {
                 throw new Error(`HTTP error! status: ${response.status}`);
             }
@@ -47,7 +47,7 @@ export default function ImageUploader({ setPublicIds, setLoading, publicIds, pro
                     console.log('updatedIds', updatedIds); // Log the updated state
 
                     // Call your server-side code to update the MongoDB document
-                    fetch(`http://localhost:5000/property/${propertyId}/images`, {
+                    fetch(`${import.meta.env.VITE_BASE_URL}/property/${propertyId}/images`, {
                         method: 'PUT',
                         headers: {
                             'Content-Type': 'application/json',

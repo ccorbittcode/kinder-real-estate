@@ -12,7 +12,7 @@ export default function Layout() {
     useEffect(() => {
         const checkUserLoggedIn = async () => {
             try {
-                const response = await fetch('http://localhost:5000/api/auth/check');
+                const response = await fetch(`${import.meta.env.VITE_BASE_URL}/api/auth/check`);
                 if (response.ok) {
                     const data = await response.json();
                     if (data.isAuthenticated) {
