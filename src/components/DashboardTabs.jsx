@@ -19,8 +19,6 @@ export default function DashboardTabs() {
   return (
     <Box sx={{
       width: '100%',
-      bgcolor: 'background.paper',
-      backgroundImage: 'linear-gradient(white, #24c5f3)'
     }}
       className="dashboard-tabs"
     >

@@ -24,7 +24,7 @@ export default function Property() {
     // This method fetches the records from the database.
     useEffect(() => {
         async function getProperty() {
-            const response = await fetch(`http://localhost:5000/property/${id}`);
+            const response = await fetch(`${import.meta.env.VITE_BASE_URL}/property/${id}`);
             if (!response.ok) {
                 const message = `An error occurred: ${response.statusText}`;
                 window.alert(message);
@@ -38,7 +38,7 @@ export default function Property() {
 
     const handleDelete = async () => {
         if (window.confirm('Are you sure you want to delete this property?')) {
-            const response = await fetch(`http://localhost:5000/property/${id}`, { method: 'DELETE' });
+            const response = await fetch(`${import.meta.env.VITE_BASE_URL}/property/${id}`, { method: 'DELETE' });
             if (!response.ok) {
                 const message = `An error occurred: ${response.statusText}`;
                 window.alert(message);

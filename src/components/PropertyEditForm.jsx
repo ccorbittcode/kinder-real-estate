@@ -56,7 +56,7 @@ export default function PropertyEditForm() {
     // Fetch property data when the component mounts
     useEffect(() => {
         const fetchProperty = async () => {
-            const response = await fetch(`http://localhost:5000/property/${id}`);
+            const response = await fetch(`${import.meta.env.VITE_BASE_URL}/property/${id}`);
             const property = await response.json();
 
             setForm({
@@ -99,7 +99,7 @@ export default function PropertyEditForm() {
                 description,
                 images: publicIds, // Use the current value of publicIds
             };
-            const response = await fetch(`http://localhost:5000/property/${id}`, {
+            const response = await fetch(`${import.meta.env.VITE_BASE_URL}/property/${id}`, {
                 method: 'PUT',
                 headers: {
                     "Content-Type": "application/json",

@@ -1,6 +1,5 @@
 import TextInput from "./TextInput";
 import { Box, Grid } from "@mui/material";
-import TextArea from "./TextArea";
 import ImageUploader from "./ImageUploader";
 import Button from '@mui/material/Button';
 import React, { useState, useEffect } from "react";
@@ -11,6 +10,7 @@ import 'react-quill/dist/quill.snow.css';
 import "./PropertyAddForm.css";
 import { UserContext } from './UserContext';
 import { useContext } from 'react';
+import { useParams } from "react-router-dom";
 
 // const propertyTypeOptions = [
 //     { type: "Type", value: "Residential", label: "Residential" },
@@ -49,6 +49,7 @@ export default function PropertyAddForm() {
         images: publicIds,
     });
     const { showSnackbar } = useContext(UserContext);
+    const { id } = useParams();
 
     const navigate = useNavigate();
     // These methods will update the state properties.
@@ -74,7 +75,7 @@ export default function PropertyAddForm() {
                 description,
                 images: publicIds, // Use the current value of publicIds
             };
-            const response = await fetch('http://localhost:5000/properties/add', {
+            const response = await fetch(`${import.meta.env.VITE_BASE_URL}/properties/add`, {
                 method: 'POST',
                 headers: {
                     "Content-Type": "application/json",
@@ -244,7 +245,7 @@ export default function PropertyAddForm() {
                     </Grid>
                     <Grid item xs={1} md={4} lg={4}></Grid>
                     <Grid item xs={11} md={8} lg={6}>
-                        <ImageUploader setPublicIds={setPublicIds} setLoading={setLoading} publicIds={publicIds} />
+                        <ImageUploader setPublicIds={setPublicIds} setLoading={setLoading} publicIds={publicIds} propertyId={id} />
                     </Grid>
                     <Grid item xs={1} md={4} lg={6}></Grid>
                     <Grid item xs={3} md={2} lg={2}>

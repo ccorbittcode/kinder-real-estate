@@ -10,7 +10,7 @@ export default function PropertyList() {
     // This method fetches the records from the database.
     useEffect(() => {
         async function getProperties() {
-            const response = await fetch(`http://localhost:5000/properties/`);
+            const response = await fetch(`${import.meta.env.VITE_BASE_URL}/properties/`);
             if (!response.ok) {
                 const message = `An error occurred: ${response.statusText}`;
                 window.alert(message);
@@ -22,14 +22,7 @@ export default function PropertyList() {
         getProperties();
         return;
     }, [properties.length]);
-    // This method will delete a property
-    async function deleteProperty(id) {
-        await fetch(`http://localhost:5000/${id}`, {
-            method: "DELETE"
-        });
-        const newProperties = properties.filter((el) => el._id !== id);
-        setProperties(newProperties);
-    }
+
     // returns a map over the properties array and displays each property
     return (
         <>
