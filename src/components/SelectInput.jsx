@@ -6,7 +6,7 @@ import Select from '@mui/material/Select';
 import './SelectInput.css'
 
 
-export default function SelectInput({ options, name, value, onChange}) {
+export default function SelectInput({ options, name, value, onChange }) {
 
     return (
         <div>
