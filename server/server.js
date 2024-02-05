@@ -12,7 +12,7 @@ const app = express();
 // Express.js setup
 // https://kinder-real-estate.vercel.app/
 app.use(cors({
-    origin: `http://localhost:${process.env.VITE_ORIGIN_PORT}`,
+    origin: `https://kinder-real-estate.vercel.app/`,
     credentials: true
 }));
 app.use(express.json());
