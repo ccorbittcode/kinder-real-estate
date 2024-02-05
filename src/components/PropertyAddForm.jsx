@@ -12,19 +12,10 @@ import { UserContext } from './UserContext';
 import { useContext } from 'react';
 import { useParams } from "react-router-dom";
 
-// const propertyTypeOptions = [
-//     { type: "Type", value: "Residential", label: "Residential" },
-//     { type: "Type", value: "Commercial", label: "Commercial" },
-//     { type: "Type", value: "Land", label: "Land" },
-//     { type: "Type", value: "Multi-Family", label: "Multi-Family" },
-//     { type: "Type", value: "Other", label: "Other" },
-// ];
-
 const rentOrSaleOptions = [
     { type: "Rental or Sale", value: "rental", label: "Rental" },
     { type: "Rental or Sale", value: "sale", label: "Sale" },
 ]
-
 
 export default function PropertyAddForm() {
     const [loading, setLoading] = useState(false);
