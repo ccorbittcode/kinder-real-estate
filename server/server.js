@@ -4,6 +4,7 @@ import propertyRoutes from "./routes/property.js";
 import dotenv from "dotenv";
 import session from 'express-session';
 import passport from "passport";
+import connectToServer from "./db/conn.js";
 dotenv.config({ path: "../.env"});
 
 const app = express();
@@ -39,13 +40,16 @@ app.use(function(err, req, res, next) {
 });
 
 // get driver connection
-import connectToServer from "./db/conn.js";
 
 const port = process.env.VITE_PORT || 5000;
-app.listen(port, async () => {
-  // perform a database connection when server starts
-  await connectToServer(function (err) {
-    if (err) console.error(err);
-   });
-  console.log(`Server is running on port: ${port}`);
+
+// perform a database connection when server starts
+connectToServer().then(() => {
+  // Start the server after the connection is made
+  app.listen(port, () => {
+    console.log(`Server is running on port: ${port}`);
+  });
+}).catch((err) => {
+  console.error('Failed to connect to the database', err);
+  process.exit(1); // Exit process with failure
 });
