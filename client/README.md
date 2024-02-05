@@ -1,2 +1,2 @@
 # kinder-real-estate
-a mock real estate site built with the MERN stack.
+This is a mock real estate site built with the MERN stack.
