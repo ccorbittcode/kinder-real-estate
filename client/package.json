@@ -1,5 +1,6 @@
 {
   "name": "kinder-real-estate",
+  "homepage": "https://kinder-real-estate.vercel.app/",
   "private": true,
   "version": "0.0.0",
   "type": "module",
